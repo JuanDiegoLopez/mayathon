@@ -68,7 +68,8 @@ div{
   .btn {
   height: 150px;
    text-transform:capitalize;
-   color:#eee
+   color: white;
+   border-radius: 50px;
   }
   h2{
     
