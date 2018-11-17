@@ -3,11 +3,7 @@
     <v-toolbar  color="grey darken-2" dark fixed>
         <v-layout>
             <v-flex md6 >
-<<<<<<< HEAD
       <v-toolbar-title class="font mt-2" >Ants Invesment</v-toolbar-title>
-=======
-      <v-toolbar-title class="font mt-2" >Ants Inversion</v-toolbar-title>
->>>>>>> 57088d898ba44ae68d12af72957dd3f61541a10c
        </v-flex>
          <v-spacer></v-spacer>
        <v-list class="fla">
@@ -33,11 +29,7 @@
           >
           
             <img src="../assets/aant.png" alt="Vuetify.js" height="150">
-<<<<<<< HEAD
             <h1 class="white--text mb-2 display-1 text-xs-center gr font2">Ants Invesment</h1>
-=======
-            <h1 class="white--text mb-2 display-1 text-xs-center gr font2">Ants Inversion</h1>
->>>>>>> 57088d898ba44ae68d12af72957dd3f61541a10c
             <div class="white--text subheading mb-3 text-xs-center gr">El poder del trabajo en equipo</div>
           </v-layout>
         </v-parallax>
