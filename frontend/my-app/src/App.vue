@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <app-navbar v-if="connect"></app-navbar>
+    <app-loader></app-loader>
     <v-content>
       <v-container>
         <router-view></router-view>
@@ -13,6 +14,7 @@
 <script>
 import AppNavbar from './components/layout/Navbar'
 import AppFooter from './components/layout/Footer'
+import AppLoader from './components/layout/Loader'
 
 import {mapState} from 'vuex'
 
@@ -20,7 +22,8 @@ export default {
   name: 'App',
   components: {
     AppNavbar,
-    AppFooter
+    AppFooter,
+    AppLoader
   },
   computed: {
     ...mapState(['connect'])

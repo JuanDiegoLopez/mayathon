@@ -9,7 +9,8 @@ const store = new Vuex.Store({
     dialog: false,
     inversionSelected: null,
     user: null,
-    inversiones: null
+    inversiones: [],
+    isLoading: false
   },
   getters: {
     getUser (state) {
@@ -25,10 +26,20 @@ const store = new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
-      state.connect = !state.connect
+      state.connect = true
     },
     setInversiones (state, inversiones) {
       state.inversiones = inversiones
+    },
+    addInversion (state, inversion) {
+      state.inversiones.push(inversion)
+    },
+    disconnect (state) {
+      state.user = null
+      state.connect = false
+    },
+    toggleLoader (state) {
+      state.isLoading = !state.isLoading
     }
   },
   actions: {
