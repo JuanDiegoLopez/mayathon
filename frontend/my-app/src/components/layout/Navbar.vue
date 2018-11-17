@@ -70,8 +70,19 @@
         <v-btn flat to="/invertir">Invertir</v-btn>
         <v-btn flat to="/solicitudes">Mis solicitudes</v-btn>
         <v-btn flat to="/inversiones">Mis inversiones</v-btn>
-        <v-btn flat to="/perfil">Perfil</v-btn>
-        <v-btn flat @click="logout()">Cerrar sesion</v-btn>
+        <v-menu offset-y>
+          <v-btn slot="activator" flat>
+            Juan Diego
+          </v-btn>
+          <v-list>
+            <v-list-tile to="/perfil">
+              <v-list-tile-title>Perfil</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="logout()">
+              <v-list-tile-title>Cerrar sesión</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
       </v-toolbar-items>
     </v-toolbar>
   </div>

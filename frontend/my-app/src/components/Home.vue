@@ -1,6 +1,6 @@
 <template>
   <v-container v-if='user'>
-    <h1 class="display-2">Bienvenido, {{user.nombre}}</h1>
+    <h1 class="display-2">Bienvenido, {{user.name}}</h1>
     <br>
     <h3 class="headline">¿Qué deseas hacer hoy?</h3>
     <br>

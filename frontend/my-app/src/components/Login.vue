@@ -19,6 +19,7 @@
                   hint="At least 8 characters"
                   class="input-group--focused"
                   @click:append="show = !show"
+                  @keyup.enter="signIn()"
           ></v-text-field>
           <v-text-field v-show="signUpShow"
                   :append-icon="show1 ? 'visibility_off' : 'visibility'"
@@ -78,11 +79,10 @@
           if (!response.data.estado) return this.message = response.data.mensaje
           const user = {
             id: response.data.id_usuario,
-            name: this.name,
-            lastname: this.lastname,
-            phone: this.phone,
-            email: this.email,
-            password: this.password
+            nombre: this.name,
+            apellido: this.lastname,
+            celular: this.phone,
+            correo: this.email
           }
           this.$store.commit('setUser', user)
           this.$router.push('inicio')
@@ -92,10 +92,11 @@
       },
       async signIn () {
         try {
-          const response = await userService.signIn(this.email, this.password)
-          if (!response.data.estado) return this.message = response.data.mensaje
-          this.$store.commit('setUser', response.data.doc_usu)
-          this.$store.commit('setInversiones', response.data.solicitudes)
+          // const response = await userService.signIn(this.email, this.password)
+          // if (!response.data.estado) return this.message = response.data.mensaje
+          // this.$store.commit('setUser', response.data.doc_usu)
+          // this.$store.commit('setInversiones', response.data.solicitudes)
+          this.$store.commit('setUser', {})
           this.$router.push('inicio')
         } catch (error) {
           this.message = 'Ha ocurrido un error'
