@@ -14,12 +14,15 @@
         </v-flex>
       </v-layout>
       <br>
+      <v-alert :value="alert.show" :type="alert.type">
+        {{alert.message}}
+      </v-alert>
       <v-layout row wrap>
         <v-flex xs12 sm6 md4 class="px-3 mb-4" v-for="inversion in inversionesFiltradas" :key="inversion._id">
           <inversion :inversion="inversion"></inversion>
         </v-flex>
       </v-layout>
-      <modal-inversion :dialog="false"></modal-inversion>
+      <modal-inversion :dialog="false" @changeAlert="changeAlert"></modal-inversion>
     </v-container>
     <v-container v-else>
       <h1 class="display-1">Aún no se ha hecho solicitudes de inversion :(</h1>
@@ -34,6 +37,15 @@ import Inversion from './inversiones/Inversion'
 import ModalInversion from './modals/ModalInversion'
 
 export default {
+  data () {
+    return {
+      alert: {
+        type: 'error',
+        show: false,
+        message: ''
+      }
+    }
+  },
   components: {
     Inversion,
     ModalInversion
@@ -46,6 +58,11 @@ export default {
         if (inversion.solicitante._id != this.user._id) inversionesFiltradas.push(inversion)
       }
       return inversionesFiltradas
+    }
+  },
+  methods: {
+    changeAlert (alert) {
+      this.alert = alert
     }
   }
 }
