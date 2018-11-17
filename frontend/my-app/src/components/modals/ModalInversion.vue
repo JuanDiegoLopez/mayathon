@@ -1,24 +1,29 @@
 <template>
   <v-dialog :value="dialog" width="500" v-if="inversionSelected && dialog">
     <v-card>
-      <v-card-title class="headline blue darken-4 white--text" primary-title>
+      <v-card-title class="headline  darken-4 white--text col letra" primary-title>
         {{inversionSelected.titulo}}
       </v-card-title>
       <v-card-text>
         <p>{{inversionSelected.descripcion}}</p>
         <v-divider></v-divider>
         <br>
-        <h2><span class="title red--text text--lighten-1">Riesgo: </span>{{inversionSelected.riesgo | aproximar}} %</h2>
-        <h2><span class="title blue--text text--darken-3">Meta: </span>$ {{inversionSelected.monto5 | coin}}</h2>
-        <h2><span class="title blue--text text--darken-3">Conseguido: </span>$ {{inversionSelected.invertido | coin}}</h2>
-        <h2><span class="title blue--text text--darken-3"># Inversores: </span>$ {{inversionSelected.numeroInversores}}</h2>
-        <h2><span class="title blue--text text--darken-3">Finaliza: </span>{{inversionSelected.fechaFin | fecha}}</h2>
+        <h2><span class="title col-red text--lighten-1">Riesgo: </span>{{inversionSelected.riesgo | aproximar}} %</h2>
+        <v-divider></v-divider>
+        <h2> &nbsp;</h2>
+        <h2><span class="title col-blue text--darken-3">Meta: </span>$ {{inversionSelected.monto5 | coin}}</h2>
+        <h2><span class="title col-blue  text--darken-3">Conseguido: </span>$ {{inversionSelected.invertido | coin}}</h2>
+         <h2><span class="title col-blue  text--darken-3">Número inversores: </span> {{inversionSelected.numeroInversores}}</h2>
+        <v-divider></v-divider>
+        <h2> &nbsp;</h2>
+         <h2><span class="title col-blue  text--darken-3">Finaliza: </span>{{inversionSelected.fechaFin | fecha}}</h2>
+      
       </v-card-text>
       <v-divider></v-divider>
 
       <v-layout row wrap>
         <v-flex xs12 class="px-3">
-          <v-text-field type="number" v-model="monto" label="Monto a invertir" prefix="$"></v-text-field>
+          <v-text-field type="number" v-model="monto" label="Monto a invertir" prefix="$" class="azul"></v-text-field>
         </v-flex>
       </v-layout>
       <v-card-actions>
@@ -26,7 +31,7 @@
         <v-btn flat @click="toggleModal()">
           Cancelar
         </v-btn>
-        <v-btn color="success" flat @click="invertir()">
+        <v-btn class="verd" flat @click="invertir()">
           Invertir
         </v-btn>
       </v-card-actions>
@@ -86,3 +91,22 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.col{
+  background-color: #3d4e69;
+}
+.col-blue {
+color: #3d4e69;
+}
+.col-red{
+  color: #b54644;
+}
+.letra{
+   font-family: 'Lobster', cursive !important;
+}
+.verd{
+  color:#215d23 !important;
+}
+</style>
+
