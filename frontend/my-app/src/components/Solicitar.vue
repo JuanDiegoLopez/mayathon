@@ -1,16 +1,51 @@
 <template>
     <v-layout row wrap >
-      <v-flex xs6 offset-xs3 xs12 sm4 offset-sm4 >
+      <v-flex lg8 offset-lg2 >
            <h1>Solicitar inversion</h1>
-           <v-card>
-        <v-container fill-height fluid>
-            <form >
+            <form>
+              <v-text-field
+                v-model="titulo"
+                label="Titulo del proyecto"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
+               
+              <v-select
+          :items="categoria"
+          label="Categoria"
+        ></v-select>
+            <v-layout row wrap>
+                <v-flex xs10 >
+                    <v-text-field
+                    class="mr-4"
+                v-model="imagen"
+                label="Cargar imagen"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
+            
+                </v-flex>
+                <v-flex xs2>
+                     <v-btn block >cargar</v-btn>
+                </v-flex>
+            </v-layout>
+
+        
+        <v-text-field
+                v-model="monto"
+                label="Monto"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
+              
                
             <v-btn to="/inicio" >Cancelar</v-btn>
             <v-btn color="primary" dark @click="dialog = true" > Publicar </v-btn>
             </form>
-        </v-container>
-           </v-card>
+           
       </v-flex>
 
       <v-dialog
