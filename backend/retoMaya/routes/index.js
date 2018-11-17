@@ -65,6 +65,8 @@ module.exports = exports = function(app,db, io) { //cargamos exactamente las mis
 
 		app.post('/invertir', usersHandler.postInvertir);
 
+		socket.on('disconnect', usersHandler.desconectadoAppEmit);
+
 
 		});
 

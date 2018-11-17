@@ -5,7 +5,7 @@ var UsersDAO = require('../model/users').UsersDAO; //carga de archvo para el acc
 function UsersHandler(io,db,fs,ObjectID,socket) { //cargamos exactamente las mismas variables que vienen de index.js es decir recibe las variables
     "use strict";
 
-    var users = new UsersDAO(db,ObjectID,fs); // Data Acces Object para la base de datos
+    var users = new UsersDAO(db,ObjectID,fs,io); // Data Acces Object para la base de datos
 
   
     //post
@@ -68,10 +68,10 @@ function UsersHandler(io,db,fs,ObjectID,socket) { //cargamos exactamente las mis
 
         console.log(req.body);
 
-        users.postInvertir(req.body, function(estado,socketid){
+        users.postInvertir(req.body, function(estado,socketid,estadoSol){
         "use strict";
 
-        socket.broadcast.emit('actualizarEstadoInversion', req.body.idInversion,req.body.monto );
+        socket.broadcast.emit('actualizarEstadoInversion', {idInversion:req.body.idInversion,monto:req.body.monto,estado:estadoSol } );
 
          
 
@@ -103,6 +103,31 @@ function UsersHandler(io,db,fs,ObjectID,socket) { //cargamos exactamente las mis
 
         );
     }     
+
+    this.desconectadoAppEmit = function(reason) { 
+        "use strict";
+
+            console.log("desconectadoAppEmit"); 
+            console.log(reason);
+            
+   if (reason=="client namespace disconnect") {
+
+
+        users.desconectadoAppEmit(socket.id, function(err,estado) {
+            "use strict";
+
+            if(err) console.log("error en disconnect")
+            if (estado) console.log("correcta la desconexión y reinicio del token")
+
+        
+                
+        }); 
+    
+       
+   }
+
+
+        }
 
 
     //Support Functions
