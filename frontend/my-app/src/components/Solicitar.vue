@@ -62,7 +62,7 @@
   <v-container v-else class="text-xs-center">
     <h2 class="display-1">Primero completa tu perfil para hacer tu primera solicitud</h2>
     <br>
-    <img src="../assets/triste.png" alt="carita" width="150px">
+    <img src="../assets/sad.png" alt="carita" width="300px">
     <br>
     <br>
     <v-btn to="/perfil">Completar perfil</v-btn>
