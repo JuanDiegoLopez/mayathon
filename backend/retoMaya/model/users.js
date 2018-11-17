@@ -303,9 +303,37 @@ function UsersDAO(db,ObjectID,fs) {
                     console.log([docuser.corriente1/maximos[0],parseInt(solicitud.duracion2)/maximos[1],docuser.historia3/maximos[2],solicitud.categoria4/maximos[3],parseInt(solicitud.monto5)/maximos[4],docuser.ahorros6/maximos[5],docuser.empleoDesde7/maximos[6],docuser.porceTasa8/maximos[7],docuser.civilSexo9/maximos[8],solicitud.fiador10/maximos[9],docuser.residenciaDesde11/maximos[10],docuser.propiedades12/maximos[11],docuser.edad13/maximos[12],docuser.planesPago14/maximos[13],docuser.residencia15/maximos[14],docuser.creditoExistente16/maximos[15],docuser.trabajo17/maximos[16],docuser.depende18/maximos[17],1/maximos[18] ,docuser.extranjero20/maximos[19] ])
                     console.log([docuser.corriente1,parseInt(solicitud.duracion2),docuser.historia3,solicitud.categoria4,parseInt(solicitud.monto5),docuser.ahorros6,docuser.empleoDesde7,docuser.porceTasa8,docuser.civilSexo9,solicitud.fiador10,docuser.residenciaDesde11,docuser.propiedades12,docuser.edad13,docuser.planesPago14,docuser.residencia15,docuser.creditoExistente16,docuser.trabajo17,docuser.depende18,1 ,docuser.extranjero20 ])
                    console.log( 1-redImported.activate(  [docuser.corriente1,parseInt(solicitud.duracion2),docuser.historia3,solicitud.categoria4,parseInt(solicitud.monto5),docuser.ahorros6,docuser.empleoDesde7,docuser.porceTasa8,docuser.civilSexo9,solicitud.fiador10,docuser.residenciaDesde11,docuser.propiedades12,docuser.edad13,docuser.planesPago14,docuser.residencia15,docuser.creditoExistente16,docuser.trabajo17,docuser.depende18,1 ,docuser.extranjero20 ] ))
-                var solicitudBD={riesgo:riesgo,titulo:solicitud.titulo,rentabilidad:solicitud.rentabilidad,nombreFiador:solicitud.nombreFiador,monto5:parseInt(solicitud.monto5),modelo:solicitud.modelo,fiador10:solicitud.fiador10,duracion2:parseInt(solicitud.duracion2),descripcion:solicitud.descripcion,cedulaFiador:solicitud.cedulaFiador,categoria4:solicitud.categoria4,estado:0};
+                
+                    var fechaInicio=new Date();
+              if (riesgo>=0.5) {
 
 
+                    if (riesgo>0.8) {
+
+                            var fechaFin = new Date(fechaInicio.getFullYear(),fechaInicio.getMonth(),fechaInicio.getDate()+5);
+                        
+                    } else {
+
+                        var fechaFin = new Date(fechaInicio.getFullYear(),fechaInicio.getMonth(),fechaInicio.getDate()+15);
+                        
+                    }
+                  
+              } else {
+
+                if (riesgo<0.2) {
+
+                    var fechaFin = new Date(fechaInicio.getFullYear(),fechaInicio.getMonth(),fechaInicio.getDate()+45);
+                        
+                } else {
+
+                    var fechaFin = new Date(fechaInicio.getFullYear(),fechaInicio.getMonth(),fechaInicio.getDate()+30);
+                    
+                }
+
+                  
+              }
+
+              var solicitudBD={fechaFin:fechaFin,fechaInicio:fechaInicio,invertido:0,descripcionCorta:solicitud.descripcionCorta,riesgo:riesgo,titulo:solicitud.titulo,rentabilidad:solicitud.rentabilidad,nombreFiador:solicitud.nombreFiador,monto5:parseInt(solicitud.monto5),modelo:solicitud.modelo,fiador10:solicitud.fiador10,duracion2:parseInt(solicitud.duracion2),descripcion:solicitud.descripcion,cedulaFiador:solicitud.cedulaFiador,categoria4:solicitud.categoria4,estado:0};
 
 
 
