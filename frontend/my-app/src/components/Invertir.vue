@@ -3,7 +3,7 @@
     <v-container v-if="inversiones.length">
       <h1 class="display-1">¿En qué quieres invertir?</h1>
       <v-layout row wrap>
-        <v-flex md6 offset-md2 sm8 xs12>
+        <v-flex md6  sm8 xs12 class="mr-3">
           <v-text-field label="Buscar proyecto" class="pa-2"></v-text-field>
         </v-flex>
         <v-flex md2 sm4 xs12>

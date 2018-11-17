@@ -71,7 +71,8 @@
         <v-btn flat to="/inversiones">Mis inversiones</v-btn>
         <v-menu offset-y>
           <v-btn slot="activator" flat>
-            Juan Diego
+            <v-icon left>account_circle</v-icon>
+              {{user.nombre}}
           </v-btn>
           <v-list>
             <v-list-tile to="/perfil">
@@ -88,11 +89,15 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
       drawer: false
     }
+  },
+  computed:{
+    ...mapState(['user'])
   },
   methods: {
     logout () {
