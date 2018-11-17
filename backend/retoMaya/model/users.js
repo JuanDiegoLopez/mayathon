@@ -1,6 +1,18 @@
 
 var crypto = require('crypto');
 
+var schedule = require('node-schedule');
+
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: 'agrotichdsp@gmail.com',
+           pass: 'henarfu1234'
+       }
+   });
+
 var synaptic = require('synaptic');
 var Neuron = synaptic.Neuron,
 	Layer = synaptic.Layer,
@@ -14,7 +26,7 @@ function UsersDAO(db,ObjectID,fs) {
      * to the global object. Log a warning and call it correctly. */
     if (false === (this instanceof UsersDAO)) {
         console.log('Warning: PostsDAO constructor called without "new" operator');
-        return new UsersDAO(db,ObjectID,fs);
+        return new UsersDAO(db,ObjectID,fs,io);
     }
 
 
@@ -23,6 +35,106 @@ function UsersDAO(db,ObjectID,fs) {
         var usuarios= db.collection("usuarios");
         var solicitudes= db.collection("solicitudes");
         var entrenamiento = db.collection("entrenamiento");
+
+
+        var rule = new schedule.RecurrenceRule();
+        rule.dayOfWeek = [0, new schedule.Range(0, 7)];
+        rule.hour = 23;
+        rule.minute = 55;
+    
+        var j = schedule.scheduleJob(rule, function(){
+    
+            var today=new Date();
+
+            solicitudes.find({ fechaFin:{ $lte:today}, estado:{ $lte:1}    }).toArray(function(err, solicitudesArr) {
+                "use strict";
+
+                if (err) console.log("Error de bd en fechas (schedule)");
+    
+                console.log("solicitudes cambiadas (schedule)");
+
+                if (solicitudesArr.length>0) {
+
+                    async.forEachOf(solicitudesArr, function (value, key, callbackAs) {
+
+                        
+
+                        
+                        solicitudes.updateOne({_id:ObjectID(String(value._id))},{$set:{estado:3}}, function(err,result) {
+                            "use strict";      
+    
+                            if (err) return callbackAs(true);  
+    
+                           // console.log("historial de " + value);
+    
+                    
+                            usuarios.findOne( { _id:ObjectID(String(value.solicitante._id)) }, function(err, docusu) {
+                                "use strict";       
+    
+                                if (err) return callbackAs(true);  
+    
+                                io.emit('solicitudExpirada', { idInversion:value._id }   );
+
+
+                                const mailOptions = {
+                                    from: 'crowleanding@crowd.com', // sender address
+                                    to: docusu.correo, // list of receivers
+                                    subject: 'Hola '+docusu.nombre+' lamentablemente una solicitud tuya ha sido rechazada', // Subject line
+                                    html: '<p>Hola '+docusu.nombre+',</p> espero te encuentres bien. Tu solicitud con título '+value.titulo+' ha sido rechazada debido a su tiempo de expiración. Revisa nuestra APP para más detalles.'// plain text body
+                                  };
+
+                                  transporter.sendMail(mailOptions, function (err, info) {
+                                    if(err)
+                                      console.log(err)
+                                    else
+                                      console.log(info);
+                                 });
+
+    
+                                    return callbackAs();
+    
+                                
+    
+    
+    
+                      
+    
+                                });  
+    
+    
+    
+                        });    
+    
+                    }, function (err) {
+                        if (err) return callback(true);
+    
+                               
+                        
+    
+    
+    
+                            }); 
+
+
+                    
+                } else {
+
+
+                    
+                }
+
+             
+
+
+
+
+
+
+            });  
+
+    
+    
+        });
 
 
             /*var myNetwork = new Architect.Perceptron(2, 2, 1)
@@ -204,6 +316,22 @@ function UsersDAO(db,ObjectID,fs) {
                         if(error){
                             return callback(false, "","Error en la base de datos");
                         }
+
+
+                        const mailOptions = {
+                            from: 'crowleanding@crowd.com', // sender address
+                            to: usuario.correo, // list of receivers
+                            subject: 'Hola '+usuario.nombre+' Bienvenido al mundo de los negocios', // Subject line
+                            html: '<p>Hola '+usuario.nombre+',</p> espero te encuentres bien. Te damos la bienvenida a nuestra plataforma donde podras financiar y recibir dinero para tus proyectos. Revisa nuestra APP para más detalles.'// plain text body
+                          };
+
+                          transporter.sendMail(mailOptions, function (err, info) {
+                            if(err)
+                              console.log(err)
+                            else
+                              console.log(info);
+                         });
+                        
                         return callback(true, _id,"");
                     });
     
@@ -376,56 +504,80 @@ function UsersDAO(db,ObjectID,fs) {
                     "use strict";
 
 
-                    solicitudes.findOneAndUpdate({_id:ObjectID(inversion.idInversion), "inversores._id":ObjectID(inversion.idInversor) },{$inc:{"inversores.$.invertido":inversion.monto,invertido:inversion.monto}}, function(err, result) {
+                    solicitudes.findOneAndUpdate({_id:ObjectID(inversion.idInversion), "inversores._id":ObjectID(inversion.idInversor) },{$inc:{"inversores.$.invertido":inversion.monto,invertido:inversion.monto}},{returnOriginal:false}, function(err, result) {
                         "use strict";
 
-                        var sumaInversores=0;
+                        var estado=1;
                         var docSol=result.value;
                         if (docSol){
-                    
-                                        usuarios.updateOne({_id:ObjectID(inversion.idInversor), "inversiones._id":docSol._id   },{$inc:{"inversiones.$.invertido":inversion.monto}}, function(err) {
+
+                                        if (docSol.invertido >= docSol.monto5  ){ 
+                                            
+                                            estado=2;
+                                            docSol.estado=2;
+
+                                        }
+
+                                        solicitudes.updateOne({_id:ObjectID(inversion.idInversion)  },{$set:{"estado":estado}}, function(err) {
                                             "use strict";
                             
                                                     if (err) return callback(1);                                                      
                                                     
                                             
                                             });
+                                            
+                                        
+                    
+                                        usuarios.updateOne({_id:ObjectID(inversion.idInversor), "inversiones._id":docSol._id   },{$set:{"inversiones.$.estado":estado},$inc:{"inversiones.$.invertido":inversion.monto}}, function(err) {
+                                            "use strict";
+                            
+                                                    if (err) return callback(1);                                                      
+                                                    
+                                            
+                                            });
+
+                                            var idSoli=docSol.solicitante._id;
             
+                                            delete docSol.solicitante;
             
-            
-                                        usuarios.findOneAndUpdate({_id:ObjectID(docSol.solicitante._id),"solicitudes._id":ObjectID(inversion.idInversion)},{$inc:{"solicitudes.$.invertido":inversion.monto  }}, function(err,result) {
+                                        usuarios.findOneAndUpdate({_id:ObjectID(idSoli),"solicitudes._id":ObjectID(inversion.idInversion)},{$set:{"solicitudes.$":docSol  }}, function(err,result) {
                                             "use strict";
                                         
                                                 if (err) return callback(err, false);
                             
                                                 var userDoc=result.value;
 
-                                                var indexSol;
+                                                if (estado==2) {
 
-                                                for (let i = 0; i < userDoc.solicitudes.length; i++) {
-                                                
-                                                    if (String(userDoc.solicitudes[i]._id)==inversion.idInversion) {
-                                                        indexSol=i;    
-                                                        break;                                                    
-                                                    }                                                                                                        
+                                                    const mailOptions = {
+                                                        from: 'crowleanding@crowd.com', // sender address
+                                                        to: userDoc.correo, // list of receivers
+                                                        subject: 'Hola '+userDoc.nombre+' una solicitud tuya ha sido financiada completamente', // Subject line
+                                                        html: '<p>Hola '+userDoc.nombre+',</p> espero te encuentres bien. Tu solicitud con título '+docSol.titulo+' ha sido financiada completamente. Revisa nuestra APP para más detalles.'// plain text body
+                                                      };
+
+                                                      transporter.sendMail(mailOptions, function (err, info) {
+                                                        if(err)
+                                                          console.log(err)
+                                                        else
+                                                          console.log(info);
+                                                     });
+                                                    
+
+                                                      return callback(true,userDoc.socketid,estado);
+                                                }
+                                                else {
+
+                                                    return callback(true,userDoc.socketid,estado);
+
                                                 }
 
-
-
-                                        usuarios.updateOne({_id:ObjectID(docSol.solicitante._id),"solicitudes.indexSol.inversores._id":ObjectID(inversion.idInversor)},{$inc:{"solicitudes.indexSol.inversores.$.invertido":inversion.monto  }}, function(err,result) {
-                                            "use strict";
-                                        
-                                                if (err) return callback(err, false);
-                                    
-
-
-            
-                                                return callback(true,userDoc.socketid);
+                                            
             
                                                 
             
             
-                                            });
+                                            
                             
                                         });
             
@@ -440,7 +592,8 @@ function UsersDAO(db,ObjectID,fs) {
                         } 
                         else{
 
-                            sumaInversores=sumaInversores+1;
+
+                            
 
 
                             solicitudes.findOneAndUpdate({_id:ObjectID(inversion.idInversion)},{$set:{estado:1},$inc:{numeroInversores:1,invertido:inversion.monto},$push:{inversores:{invertido:inversion.monto,nombre:docinve.nombre,_id:docinve._id,celular:docinve.celular}}}, function(err,result) {
@@ -455,6 +608,24 @@ function UsersDAO(db,ObjectID,fs) {
                                         solicitudDoc.numeroInversores=solicitudDoc.numeroInversores + 1;
 
                                         solicitudDoc.invertido=solicitudDoc.invertido+inversion.monto;
+
+                                        
+                                        if (docSol.invertido >= docSol.monto5  ){
+                                                        
+                                            estado=2;
+                                            solicitudDoc.estado=2;
+
+                                        }
+
+                                            solicitudes.updateOne({ _id:ObjectID(inversion.idInversion) },{$set:{estado:estado}}, function(err) {
+                                                "use strict";
+                                
+                                                        if (err) return callback(1);                                                      
+                                                        
+                                                
+                                                });                                            
+
+                                        
             
             
                                         usuarios.updateOne({_id:ObjectID(inversion.idInversor)},{$push:{inversiones:solicitudDoc}}, function(err) {
@@ -467,14 +638,37 @@ function UsersDAO(db,ObjectID,fs) {
             
             
             
-                                        usuarios.findOneAndUpdate({_id:ObjectID(solicitudDoc.solicitante._id),"solicitudes._id":ObjectID(inversion.idInversion)},{$inc:{"solicitudes.$.numeroInversores":1,"solicitudes.$.invertido":inversion.monto},$set:{"solicitudes.$.estado":1},$push:{"solicitudes.$.inversores":{invertido:inversion.monto,nombre:docinve.nombre,_id:docinve._id,celular:docinve.celular}}}, function(err,result) {
+                                        usuarios.findOneAndUpdate({_id:ObjectID(solicitudDoc.solicitante._id),"solicitudes._id":ObjectID(inversion.idInversion)},{$inc:{"solicitudes.$.numeroInversores":1,"solicitudes.$.invertido":inversion.monto},$set:{"solicitudes.$.estado":estado},$push:{"solicitudes.$.inversores":{invertido:inversion.monto,nombre:docinve.nombre,_id:docinve._id,celular:docinve.celular}}}, function(err,result) {
                                             "use strict";
                                         
                                                 if (err) return callback(err, false);
                             
                                                 var userDoc=result.value;
             
-                                                return callback(true,userDoc.socketid);
+                                                if (estado==2) {
+
+                                                    const mailOptions = {
+                                                        from: 'crowleanding@crowd.com', // sender address
+                                                        to: userDoc.correo, // list of receivers
+                                                        subject: 'Hola '+userDoc.nombre+' una solicitud tuya ha sido financiada completamente', // Subject line
+                                                        html: '<p>Hola '+userDoc.nombre+',</p> espero te encuentres bien. Tu solicitud con título '+solicitudDoc.titulo+' ha sido financiada completamente. Revisa nuestra APP para más detalles.'// plain text body
+                                                      };
+
+                                                      transporter.sendMail(mailOptions, function (err, info) {
+                                                        if(err)
+                                                          console.log(err)
+                                                        else
+                                                          console.log(info);
+                                                     });
+                                                    
+
+                                                      return callback(true,userDoc.socketid,estado);
+                                                }
+                                                else {
+
+                                                    return callback(true,userDoc.socketid,estado);
+
+                                                }
             
                                                 
             
@@ -519,6 +713,24 @@ function UsersDAO(db,ObjectID,fs) {
                             });
                                                                     
                     } 
+
+                    this.desconectadoAppEmit = function(socketid,callback) {
+                        "use strict";
+                    
+                            var token = String(new ObjectID());
+                            usuarios.updateOne({socketid:socketid},{$set:{socketid:"" }}, function(err) {
+                            "use strict";  
+            
+                            //if(err) return callback(err,false)
+                             
+                            //return callback(err,true)
+            
+                                     return callback(null,true)
+            
+            
+                                });  
+            
+                            }
  
   
 
