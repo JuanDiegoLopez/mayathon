@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="inversiones.length">
+  <v-container v-if="inversiones.length > 0">
     <h1 class="display-1">Tus inversiones</h1>
     <br>
     <v-layout row wrap>

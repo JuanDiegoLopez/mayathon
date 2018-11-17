@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   props: ['inversion'],
   data () {
@@ -37,12 +39,13 @@ export default {
   },
   computed: {
     tiempoRestante () {
-
+      const fechaFin = moment(this.inversion.fechaFin)
+      return moment().diff(fechaFin)
     },
     porcetanjeInvertido () {
 
     }
-  }
+  },
   methods: {
     toggleModal () {
       this.$store.commit('toggleModal')
