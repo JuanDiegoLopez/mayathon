@@ -92,14 +92,10 @@
       },
       async signIn () {
         try {
-          // const response = await userService.signIn(this.email, this.password)
-          // if (!response.data.estado) return this.message = response.data.mensaje
-          // // this.$store.commit('setUser', response.data.doc_usu)
-          // this.$store.commit('setInversiones', response.data.solicitudes)
-          const user={
-
-          }
-          this.$store.commit('setUser', user)
+          const response = await userService.signIn(this.email, this.password)
+          if (!response.data.estado) return this.message = response.data.mensaje
+          this.$store.commit('setUser', response.data.doc_usu)
+          this.$store.commit('setInversiones', response.data.solicitudes)
           this.$router.push('inicio')
         } catch (error) {
           this.message = 'Ha ocurrido un error'
