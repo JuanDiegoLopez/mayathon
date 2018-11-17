@@ -1,10 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      app
-    >
+    <v-navigation-drawer v-model="drawer" fixed app>
       <v-list dense>
         <v-list-tile to="/inicio">
           <v-list-tile-action>
@@ -57,10 +53,15 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
       <v-toolbar-title>Crowdlending</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat to="/inicio">Inicio</v-btn>
+        <v-btn flat to="/solicitar">Solicitar</v-btn>
+        <v-btn flat to="/invertir">Invertir</v-btn>
+        <v-btn flat to="/solicitudes">Mis solicitudes</v-btn>
+        <v-btn flat to="/inversiones">Mis inversiones</v-btn>
         <v-btn flat>Cerrar sesion</v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -69,7 +70,7 @@
         <router-view></router-view>
       </v-container>
     </v-content>
-    <v-footer color="indigo" app>
+    <v-footer color="indigo">
       <span class="white--text">JJD Asociados &copy; 2017</span>
     </v-footer>
   </v-app>
