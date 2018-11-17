@@ -63,7 +63,7 @@ export default{
     height: 150px;
    text-transform:capitalize;
    color: white;
-   border-radius: 50px;
+   border-radius: 5px;
   }
 
   h2 {

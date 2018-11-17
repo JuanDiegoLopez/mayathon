@@ -42,7 +42,7 @@ export default {
     porcetanjeInvertido () {
 
     }
-  }
+  },
   methods: {
     toggleModal () {
       this.$store.commit('toggleModal')
