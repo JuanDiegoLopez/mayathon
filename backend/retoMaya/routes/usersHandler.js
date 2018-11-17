@@ -36,7 +36,7 @@ function UsersHandler(io,db,fs,ObjectID,socket) { //cargamos exactamente las mis
         users.postLogin(req.body,socket, function(estado,doc_usu,solicitudes,mensaje){
         "use strict";
 
-        res.send({estado:estado, doc_usu:doc_usu,solicitudes:solicitudes,mensaje:mensaje});
+        res.send({estado:estado, doc_usu:doc_usu,inversionesGlobales:solicitudes,mensaje:mensaje});
 
 
         }
@@ -50,12 +50,12 @@ function UsersHandler(io,db,fs,ObjectID,socket) { //cargamos exactamente las mis
 
         console.log(req.body);
 
-        users.postSolicitar(req.body, function(estado,solicitudBD){
+        users.postSolicitar(req.body, function(estado,solicitudBD,mensaje){
         "use strict";
 
         socket.broadcast.emit('nuevaSolicitud', solicitudBD);
 
-        res.send({estado:estado, solicitud:solicitudBD});
+        res.send({estado:estado, solicitud:solicitudBD,mensaje:mensaje});
 
 
         }
@@ -93,8 +93,7 @@ function UsersHandler(io,db,fs,ObjectID,socket) { //cargamos exactamente las mis
         console.log(req.body);
 
         users.putCompletarPerfil(req.body, function(estado,mensaje){
-        "use strict";
-
+        "use strict";            
                         
         res.send({estado:estado,mensaje:mensaje});
 

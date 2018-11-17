@@ -199,7 +199,7 @@ function UsersDAO(db,ObjectID,fs) {
     
                    // user.picture='/imagenes/usuarios/' + 'imagen'+_id+'.jpg';  
     
-                    usuarios.insertOne({ _id:_id, nombre: usuario.nombre, apellido: usuario.apellido, celular:usuario.celular, correo: usuario.correo, contrasena: usuario.contrasena,socketid:socket.id, solicitudes:[],inversiones:[]}, function(error, result){
+                    usuarios.insertOne({ _id:_id, nombre: usuario.nombre, apellido: usuario.apellido, celular:usuario.celular, correo: usuario.correo, contrasena: usuario.contrasena,socketid:socket.id,creditoExistente16:0, solicitudes:[],inversiones:[]}, function(error, result){
                         "use strict";
                         if(error){
                             return callback(false, "","Error en la base de datos");
@@ -283,32 +283,55 @@ function UsersDAO(db,ObjectID,fs) {
         this.postSolicitar = function(solicitud, callback) {
             "use strict";
         
+
+            entrenamiento.find(   {$or: [ {id:"maximos"},{id:"redEntrenada"} ]},{sort: { id:1} }  ).toArray(function(err,red){
+                "use strict";
+                
+                if (err) return callback(false,{},"Error de bd");
+
+                var maximos=red[0].maximos;
+                var redEntrenada=red[1];
+
+                var redImported = Network.fromJSON(redEntrenada.redEntrenada);
+    
+                usuarios.findOne({_id:ObjectID(solicitud.id_usuario)}, function(err, docuser) {
+                    "use strict";
+    
+    
             
+                    var riesgo= 1-redImported.activate([docuser.corriente1/maximos[0],parseInt(solicitud.duracion2)/maximos[1],docuser.historia3/maximos[2],solicitud.categoria4/maximos[3],solicitud.monto5/maximos[4],docuser.ahorros6/maximos[5],docuser.empleoDesde7/maximos[6],docuser.porceTasa8/maximos[7],docuser.civilSexo9/maximos[8],solicitud.fiador10/maximos[9],docuser.residenciaDesde11/maximos[10],docuser.propiedades12/maximos[11],docuser.edad13/maximos[12],docuser.planesPago14/maximos[13],docuser.residencia15/maximos[14],docuser.creditoExistente16/maximos[15],docuser.trabajo17/maximos[16],docuser.depende18/maximos[17],1/maximos[18] ,docuser.extranjero20/maximos[19]    ]);
+                    console.log([docuser.corriente1/maximos[0],parseInt(solicitud.duracion2)/maximos[1],docuser.historia3/maximos[2],solicitud.categoria4/maximos[3],parseInt(solicitud.monto5)/maximos[4],docuser.ahorros6/maximos[5],docuser.empleoDesde7/maximos[6],docuser.porceTasa8/maximos[7],docuser.civilSexo9/maximos[8],solicitud.fiador10/maximos[9],docuser.residenciaDesde11/maximos[10],docuser.propiedades12/maximos[11],docuser.edad13/maximos[12],docuser.planesPago14/maximos[13],docuser.residencia15/maximos[14],docuser.creditoExistente16/maximos[15],docuser.trabajo17/maximos[16],docuser.depende18/maximos[17],1/maximos[18] ,docuser.extranjero20/maximos[19] ])
+                    console.log([docuser.corriente1,parseInt(solicitud.duracion2),docuser.historia3,solicitud.categoria4,parseInt(solicitud.monto5),docuser.ahorros6,docuser.empleoDesde7,docuser.porceTasa8,docuser.civilSexo9,solicitud.fiador10,docuser.residenciaDesde11,docuser.propiedades12,docuser.edad13,docuser.planesPago14,docuser.residencia15,docuser.creditoExistente16,docuser.trabajo17,docuser.depende18,1 ,docuser.extranjero20 ])
+                   console.log( 1-redImported.activate(  [docuser.corriente1,parseInt(solicitud.duracion2),docuser.historia3,solicitud.categoria4,parseInt(solicitud.monto5),docuser.ahorros6,docuser.empleoDesde7,docuser.porceTasa8,docuser.civilSexo9,solicitud.fiador10,docuser.residenciaDesde11,docuser.propiedades12,docuser.edad13,docuser.planesPago14,docuser.residencia15,docuser.creditoExistente16,docuser.trabajo17,docuser.depende18,1 ,docuser.extranjero20 ] ))
+                var solicitudBD={riesgo:riesgo,titulo:solicitud.titulo,rentabilidad:solicitud.rentabilidad,nombreFiador:solicitud.nombreFiador,monto5:parseInt(solicitud.monto5),modelo:solicitud.modelo,fiador10:solicitud.fiador10,duracion2:parseInt(solicitud.duracion2),descripcion:solicitud.descripcion,cedulaFiador:solicitud.cedulaFiador,categoria4:solicitud.categoria4,estado:0};
 
-            var solicitudBD={estado:0};
 
 
-            usuarios.findOneAndUpdate({_id:ObjectID(solicitud.idusu)},{$push:{solicitudes:solicitudBD}}, function(err,result) {
+
+
+            usuarios.updateOne({_id:ObjectID(solicitud.id_usuario)},{$push:{solicitudes:solicitudBD}}, function(err,result) {
                 "use strict";
             
-                    if (err) return callback(err, false);
+                    if (err) return callback(false, {},"Error de bd");
 
-                    var userDoc=result.value;
+                    
 
-                    solicitudBD["solicitante"]={nombre:userDoc.nombre,_id:solicitud.idusu,celular:userDoc.celular};
+                    solicitudBD["solicitante"]={nombre:docuser.nombre,_id:solicitud.id_usuario,celular:docuser.celular};
 
                     solicitudes.insertOne(solicitudBD, function(err, docD) {
                         "use strict";
-                        if (err) return callback(err, false);
+                        if (err) return callback(false, {},"Error de bd");
 
 
-                        return callback(err,solicitudBD);
+                        return callback(true,solicitudBD,"");
         
                       });
 
-
+                    });
 
             });
+
+        });
             
         
             }  
@@ -373,7 +396,7 @@ function UsersDAO(db,ObjectID,fs) {
                     "use strict";
         
     
-                        usuarios.updateOne({_id:ObjectID(docUsu)},{$set:{}}, function(err) {
+                        usuarios.updateOne({_id:ObjectID(docUsu._id)},{$set:{corriente1:docUsu.corriente1,historia3:docUsu.historia3,ahorros6:docUsu.ahorros6,empleoDesde7:docUsu.empleoDesde7,porceTasa8:docUsu.porceTasa8,civilSexo9:docUsu.civilSexo9,residenciaDesde11:parseInt(docUsu.residenciaDesde11),propiedades12:docUsu.propiedades12,edad13:parseInt(docUsu.edad13),planesPago14:docUsu.planesPago14,residencia15:docUsu.residencia15,trabajo17:docUsu.trabajo17,depende18:parseInt(docUsu.depende18),extranjero20:docUsu.extranjero20 }}, function(err) {
                             "use strict";
             
                                     if (err) return callback(false,"Error de base de datos");      

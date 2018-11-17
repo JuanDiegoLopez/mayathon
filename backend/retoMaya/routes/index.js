@@ -38,7 +38,7 @@ module.exports = exports = function(app,db, io) { //cargamos exactamente las mis
 
 				  
 			  //post
-				  app.post('/solicitar', usersHandler.postSolicitar);
+				  
 
 				  app.post('/invertir', usersHandler.postInvertir);
 
@@ -60,6 +60,8 @@ module.exports = exports = function(app,db, io) { //cargamos exactamente las mis
 		app.post('/login', usersHandler.postLogin);
 
 		app.post('/registrar', usersHandler.postRegistrar);	
+
+		app.post('/solicitar', usersHandler.postSolicitar);
 
 
 		});
