@@ -5,19 +5,30 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    title: 'Title',
+    connect: false,
     dialog: false,
-    inversion: null
+    inversionSelected: null,
+    user: null,
+    inversiones: null
   },
   getters: {
-    
+    getUser (state) {
+      return state.user
+    }
   },
   mutations: {
     toggleModal (state) {
       state.dialog = !state.dialog
     },
     setInversion (state, inversion) {
-      state.inversion = inversion
+      state.inversionSelected = inversion
+    },
+    setUser (state, user) {
+      state.user = user
+      state.connect = !state.connect
+    },
+    setInversiones (state, inversiones) {
+      state.inversiones = inversiones
     }
   },
   actions: {

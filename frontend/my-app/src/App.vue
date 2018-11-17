@@ -1,88 +1,29 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" fixed app>
-      <v-list dense>
-        <v-list-tile to="/inicio">
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Inicio</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile to="/invertir">
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Invertir</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile to="/solicitar">
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Solicitar</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile to="inversiones">
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Mis inversiones</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile to="solicitudes">
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Mis solicitudes</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile to="perfil">
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Perfil</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-toolbar color="indigo" dark fixed app>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
-      <v-toolbar-title>Crowdlending</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat to="/inicio">Inicio</v-btn>
-        <v-btn flat to="/solicitar">Solicitar</v-btn>
-        <v-btn flat to="/invertir">Invertir</v-btn>
-        <v-btn flat to="/solicitudes">Mis solicitudes</v-btn>
-        <v-btn flat to="/inversiones">Mis inversiones</v-btn>
-        <v-btn flat>Cerrar sesion</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+    <app-navbar v-if="connect"></app-navbar>
     <v-content>
       <v-container>
         <router-view></router-view>
       </v-container>
     </v-content>
-    <v-footer color="indigo">
-      <span class="white--text">JJD Asociados &copy; 2017</span>
-    </v-footer>
+    <app-footer v-if="connect"></app-footer>
   </v-app>
 </template>
 
 <script>
+import AppNavbar from './components/layout/Navbar'
+import AppFooter from './components/layout/Footer'
+
+import {mapState} from 'vuex'
+
 export default {
   name: 'App',
-  data () {
-    return {
-      drawer: false
-    }
+  components: {
+    AppNavbar,
+    AppFooter
+  },
+  computed: {
+    ...mapState(['connect'])
   }
 }
 </script>
