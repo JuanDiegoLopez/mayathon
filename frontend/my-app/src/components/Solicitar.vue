@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="user && user.historia3">
+  <v-container v-if="user && user.historia3 != null">
     <h1 class="display-1">Solicitar inversión</h1>
     <v-alert :value="alert.show" :type="alert.type">
       {{alert.message}}
@@ -12,7 +12,7 @@
         <v-text-field v-model="solicitud.descripcionCorta" label="Descripcion corta" required></v-text-field>
       </v-flex>
       <v-flex md12 sm12 class="pa-2">
-        <v-textarea v-model="solicitud.descripcion" label="Descripción larga" requerid></v-textarea>
+        <v-text-field v-model="solicitud.descripcion" label="Descripción larga" requerid></v-text-field>
       </v-flex>
       <v-flex md8 sm12 class="pa-2">
         <v-text-field v-model="solicitud.modelo" label="Modelo de negocio" required></v-text-field>
@@ -97,7 +97,8 @@ export default {
             monto5: 0,
             fiador10: 0,
             nombreFiador: '',
-            cedulaFiador: ''
+            cedulaFiador: '',
+            numeroInversores: 0
           },
           fiador: [
             {nombre: 'No tengo fiador', valor: 0},
@@ -118,6 +119,7 @@ export default {
   methods: {
     async publicar () {
       try {
+        this.$store.commit('toggleLoader')
         const response = await solicitudesService.hacerSolitud(this.solicitud)
         if (!response.data.estado) {
           const alert = {
@@ -129,11 +131,14 @@ export default {
           return
         }
         this.$store.commit('addSolicitud', this.solicitud)
+        this.$store.commit('toggleLoader')
         this.$router.push('/solicitudes')
       } catch (error) {
         this.alert.type = 'error'
         this.alert.message = 'Ha ocurrido un error' 
         this.alert.show = true
+        console.log(error)
+        this.$store.commit('toggleLoader')
       }
       this.dialog = false
     }

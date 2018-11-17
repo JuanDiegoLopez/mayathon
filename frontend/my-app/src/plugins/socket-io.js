@@ -14,7 +14,7 @@ socket.on('nuevaSolicitud', (solicitud) => {
   store.commit('addInversionGlobal', solicitud)
 })
 
-socket.on('actualizarEstadoInversion', (id, monto) => {
+socket.on('actualizarEstadoInversion', (data) => {
   console.log('Han invertido en una solicitud!')
-  store.commit('setInversionGlobal', id, monto)
+  store.commit('setInversionGlobal', data)
 })

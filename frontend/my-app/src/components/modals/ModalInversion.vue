@@ -9,6 +9,7 @@
         <v-divider></v-divider>
         <br>
         <h2><span class="title col-red text--lighten-1">Riesgo: </span>{{inversionSelected.riesgo | aproximar}} %</h2>
+        <h2 v-if="this.type == 1"><span class="title green--text text--darken-1">Monto invertido: </span>$ {{inversionSelected.invertido | coin}}</h2>
         <v-divider></v-divider>
         <h2> &nbsp;</h2>
         <h2><span class="title col-blue text--darken-3">Meta: </span>$ {{inversionSelected.monto5 | coin}}</h2>
@@ -21,7 +22,7 @@
       </v-card-text>
       <v-divider></v-divider>
 
-      <v-layout row wrap>
+      <v-layout row wrap v-if="this.type != 2">
         <v-flex xs12 class="px-3">
           <v-text-field type="number" v-model="monto" label="Monto a invertir" prefix="$" class="azul"></v-text-field>
         </v-flex>
@@ -29,10 +30,16 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat @click="toggleModal()">
-          Cancelar
+          Cerrar
         </v-btn>
-        <v-btn class="verd" flat @click="invertir()">
+        <v-btn v-if="this.type == 0" class="white--text" color="green" @click="invertir()">
           Invertir
+        </v-btn>
+        <v-btn v-if="this.type == 1" class="white--text" color="green" @click="invertir()">
+          Añador inversion
+        </v-btn>
+        <v-btn color="red ligthen-2 white--text" v-if="this.type == 2 && this.inversionSelected.numeroInversores == 0">
+          Eliminar
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -43,9 +50,12 @@
 import {mapState} from 'vuex'
 import moment from 'moment'
 
+moment.locale('es')
+
 import inversionesServices from '../../services/inversiones'
 
 export default {
+  props: ['type'],
   data () {
     return {
       monto: 0
@@ -56,9 +66,13 @@ export default {
   },
   filters: {
     aproximar (value) {
+      const temp = 0
+      if (!value) return temp
       return value.toFixed(9) * 100;
     },
     coin (value) {
+      value = parseInt(value)
+      if (!value) return 0
       return value.toLocaleString()
     },
     fecha (value) {
@@ -71,36 +85,37 @@ export default {
     },
     async invertir () {
       try {
-        const inversion = {
+        const data = {
           monto: this.monto,
-          idInversion: this.inversionSelected._id,
-          idInversor: this.user._id
+          idInversor: this.user._id,
+          idInversion: this.inversionSelected._id
         }
-        const response = await inversionesServices.hacerInversion(inversion)
-        if (!response.data.estatus) {
-          const alert = {
-            type: 'error',
-            message: response.data.message,
-            show: true
-          }
-          this.changeAlert(alert)
+        this.$store.commit('toggleLoader')
+        const response = await inversionesServices.hacerInversion(data)
+        if (!response.data.estado) {
+          console.log(response)
           return
         }
-        this.$store.commit('addInvercion', this.inversion)
+
+        this.inversionSelected.invertido = parseInt(this.inversionSelected.invertido) + parseInt(this.monto)
+        console.log(this.inversionSelected.invertido) 
+        if (this.inversionSelected.invertido >= this.inversionSelected.monto5) {
+          this.inversionSelected.estado = 2
+        }
+
+        if (this.type == 0) {
+          this.$store.commit('addInversion', this.inversionSelected)
+        } else if (this.type == 1) {
+          this.$store.commit('setInversion', data)
+        }
         this.toggleModal()
-        this.$router.push('inversiones')
+        this.$store.commit('toggleLoader')
+        this.$router.push('/inversiones')
       } catch (error) {
-        const alert = {
-            type: 'error',
-            message: 'Ha ocurrido un error',
-            show: true
-          }
-          this.changeAlert(alert)
           this.toggleModal()
+          this.$store.commit('toggleLoader')
+          console.log(error)
       }
-    },
-    changeAlert (alert) {
-      this.$emit('changeAlert', alert) 
     }
   }
 }

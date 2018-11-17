@@ -167,8 +167,12 @@
         </v-container>
       </section>
 
-     <v-footer color="grey darken-3">
-    <span class="white--text">JJD Asociados &copy; 2017</span>
+    <v-footer>
+    <v-card class="footer">
+      <v-card-actions class="grey darken-3 white--text justify-center">
+        &copy;2018 — <strong> JDD ASOCIADOS</strong>
+      </v-card-actions>
+    </v-card>
   </v-footer>
     </v-content>
      </div>
@@ -183,7 +187,10 @@
   }
  </script>
 
- <style>
+ <style scoped>
+ .footer {
+  width: 100%;
+}
  .grey{
      color:white;
      background:none;
