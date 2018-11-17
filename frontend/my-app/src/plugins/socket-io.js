@@ -10,5 +10,6 @@ const socket = io(config.apiUrl)
 Vue.use(VueSocketio, socket, store)
 
 socket.on('nuevaSolicitud', (solicitud) => {
-  store.getters.addInversion(solicitud)
+  console.log('Llego una solicitud nueva!')
+  store.commit('addInversion', solicitud)
 })

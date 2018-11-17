@@ -15,7 +15,7 @@
       </v-layout>
       <br>
       <v-layout row wrap>
-        <v-flex xs12 sm6 md4 class="px-3 mb-4"  v-for="inversion in inversiones" :key="inversion._id" v-if="inversion.solicitante._id != user._id">
+        <v-flex xs12 sm6 md4 class="px-3 mb-4" v-for="inversion in inversionesFiltradas" :key="inversion._id">
           <inversion :inversion="inversion"></inversion>
         </v-flex>
       </v-layout>
@@ -39,7 +39,14 @@ export default {
     ModalInversion
   },
   computed: {
-    ...mapState(['user', 'inversiones'])
+    ...mapState(['user', 'inversiones']),
+      inversionesFiltradas () {
+      const inversionesFiltradas = []
+      for (let inversion of this.inversiones) {
+        if (inversion.solicitante._id != this.user._id) inversionesFiltradas.push(inversion)
+      }
+      return inversionesFiltradas
+    }
   }
 }
 </script>
