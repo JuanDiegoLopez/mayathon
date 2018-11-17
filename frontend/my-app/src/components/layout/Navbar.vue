@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     logout () {
-      this.$store.commit('setUser', null)
+      this.$store.commit('disconnect')
       this.$router.push('/')
     }
   }

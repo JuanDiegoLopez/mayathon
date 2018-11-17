@@ -6,16 +6,16 @@
     ></v-img>
     <v-card-title primary-title>
       <div>
-        <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
-        <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
+        <h3 class="headline mb-0">{{inversion.titulo}}</h3>
+        <div>{{inversion.descripcionCorta}}</div>
       </div>
     </v-card-title>
     <v-layout row wrap class="pa-2 text-xs-center">
       <v-flex xs6>
-        <span>Conseguido <strong>$100.000</strong></span>
+        <span>Conseguido <strong>{{inversion.invertido}}</strong></span>
       </v-flex>
       <v-flex xs6>
-        <span>Quedan <strong>15 Dias</strong></span>
+        <span>Quedan <strong></strong></span>
       </v-flex>
       <v-progress-linear v-model="valueDeterminate"></v-progress-linear>
       <span class="ma-auto blue--text">50% financiado</span>
@@ -28,10 +28,22 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
+  props: ['inversion'],
   data () {
     return {
       valueDeterminate: 50
+    }
+  },
+  computed: {
+    tiempoRestante () {
+      const fechaFin = moment(this.inversion.fechaFin)
+      return moment().diff(fechaFin)
+    },
+    porcetanjeInvertido () {
+
     }
   },
   methods: {

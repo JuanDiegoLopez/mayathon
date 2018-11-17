@@ -78,7 +78,7 @@
           const response = await userService.signUp(this.name, this.lastname, this.phone, this.email, this.password)
           if (!response.data.estado) return this.message = response.data.mensaje
           const user = {
-            id: response.data.id_usuario,
+            _id: response.data.id_usuario,
             nombre: this.name,
             apellido: this.lastname,
             celular: this.phone,
@@ -91,16 +91,24 @@
         }
       },
       async signIn () {
+        this.$store.commit('toggleLoader')
         try {
-          // const response = await userService.signIn(this.email, this.password)
-          // if (!response.data.estado) return this.message = response.data.mensaje
-          // this.$store.commit('setUser', response.data.doc_usu)
-          // this.$store.commit('setInversiones', response.data.solicitudes)
-          this.$store.commit('setUser', {})
+          const response = await userService.signIn(this.email, this.password)
+          if (!response.data.estado) {
+            this.message = response.data.mensaje
+            this.$store.commit('toggleLoader')
+            return
+          }
+          console.log(response)
+          this.$store.commit('setUser', response.data.doc_usu)
+          this.$store.commit('setInversiones', response.data.inversionesGlobales)
+          this.$store.commit('toggleLoader')
           this.$router.push('inicio')
         } catch (error) {
           this.message = 'Ha ocurrido un error'
+          this.$store.commit('toggleLoader')
         }
+        
       }
     }
   }

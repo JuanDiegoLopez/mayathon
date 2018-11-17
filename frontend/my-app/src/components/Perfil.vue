@@ -9,6 +9,9 @@
     </v-flex>  
     <v-flex md8 class="text-xs-center">
         <h2>INFORMACIÓN PERSONAL</h2>
+        <v-alert :value="alert.show" :type="alert.type">
+          {{alert.message}}
+        </v-alert>
         <br>
         <v-list two-line subheader>
           <v-layout row wrap>
@@ -16,7 +19,7 @@
               <v-list-tile>
                 <v-list-tile-content>
                   <v-list-tile-title>Nombre</v-list-tile-title>
-                  <v-list-tile-sub-title>Juan Diego</v-list-tile-sub-title>
+                  <v-list-tile-sub-title>{{user.nombre}}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-flex>
@@ -24,7 +27,7 @@
               <v-list-tile>
                 <v-list-tile-content>
                   <v-list-tile-title>Apellidos</v-list-tile-title>
-                  <v-list-tile-sub-title>López</v-list-tile-sub-title>
+                  <v-list-tile-sub-title>{{user.apellido}}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-flex>
@@ -32,7 +35,7 @@
               <v-list-tile>
                 <v-list-tile-content>
                   <v-list-tile-title>Correo</v-list-tile-title>
-                  <v-list-tile-sub-title>JuanD@gmail.com</v-list-tile-sub-title>
+                  <v-list-tile-sub-title>{{user.correo}}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-flex>
@@ -40,62 +43,65 @@
               <v-list-tile>
                 <v-list-tile-content>
                   <v-list-tile-title>Celuar</v-list-tile-title>
-                  <v-list-tile-sub-title>(+57) 3185022214</v-list-tile-sub-title>
+                  <v-list-tile-sub-title>(+57) {{user.celular}}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-flex>
             <v-flex xs12 class="px-3">
-              <v-select label="Monto promedio en cuenta corriente" :items="corriente" item-text="nombre"
+              <v-select v-model="userUpdated.corriente1" label="Monto promedio en cuenta corriente" :items="corriente" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex xs12 class="px-3">
-              <v-select label="Monto promedio en cuenta de ahorros " :items="ahorro" item-text="nombre"
+              <v-select v-model="userUpdated.ahorros6" label="Monto promedio en cuenta de ahorros " :items="ahorro" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex xs12 class="px-3">
-             <v-select label="Tasa de pago en porcentaje del ingreso disponible " :items="tasa" item-text="nombre"
+             <v-select v-model="userUpdated.porceTasa8" label="Tasa de pago en porcentaje del ingreso disponible " :items="tasa" item-text="nombre"
+          item-value="valor" ></v-select>
+            </v-flex>
+            <v-flex xs12 class="px-3">
+             <v-text-field type="number" v-model="userUpdated.residenciaDesde11" label="Antiguedad en residencia actual"></v-text-field>
+            </v-flex>
+            <v-flex sm6 xs12 class="px-3">
+               <v-text-field  type="number" v-model="userUpdated.edad13" label="Edad" required></v-text-field>
+            </v-flex>
+            <v-flex sm6 xs12 class="px-3">
+              <v-select v-model="userUpdated.historia3" label="Historia crediticia" :items="historia" item-text="nombre"
           item-value="valor" ></v-select>
             </v-flex>
             <v-flex sm6 xs12 class="px-3">
-               <v-text-field  v-model="Edad" label="Edad" required></v-text-field>
-            </v-flex>
-            <v-flex sm6 xs12 class="px-3">
-              <v-select label="Historia crediticia" :items="historia" item-text="nombre"
-          item-value="valor" ></v-select>
-            </v-flex>
-            <v-flex sm6 xs12 class="px-3">
-              <v-select label="Antiguedad en el empleo actual" :items="antiguedad_Empleo" item-text="nombre"
+              <v-select v-model="userUpdated.empleoDesde7" label="Antiguedad en el empleo actual" :items="antiguedad_Empleo" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex sm6 xs12 class="px-3">
-              <v-select label="Estado civil" :items="estado_civil" item-text="nombre"
+              <v-select v-model="userUpdated.civilSexo9" label="Estado civil" :items="estado_civil" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex sm6 xs12 class="px-3">
-              <v-select label="Propiedades" :items="propiedades" item-text="nombre"
+              <v-select v-model="userUpdated.propiedades12" label="Propiedades" :items="propiedades" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex sm6 xs12 class="px-3">
-              <v-select label="Deudas en" :items="deudas" item-text="nombre"
+              <v-select v-model="userUpdated.planesPago14" label="Deudas en" :items="deudas" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex sm6 xs12 class="px-3">
-              <v-select label="Tipo de vivienda" :items="vivienda" item-text="nombre"
+              <v-select v-model="userUpdated.residencia15" label="Tipo de vivienda" :items="vivienda" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex sm6 xs12 class="px-3">
-              <v-select label="Trabajo" :items="trabajo" item-text="nombre"
+              <v-select v-model="userUpdated.trabajo17" label="Trabajo" :items="trabajo" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex sm6 xs12 class="px-3">
-              <v-text-field label="Numero de personas dependientes"></v-text-field>
+              <v-text-field type="number" v-model="userUpdated.depende18" label="Numero de personas dependientes"></v-text-field>
             </v-flex>
             <v-flex sm6 xs12 class="px-3">
-              <v-select label="Extranjero" :items="extranjero" item-text="nombre"
+              <v-select v-model="userUpdated.extranjero20" label="Extranjero" :items="extranjero" item-text="nombre"
           item-value="valor"></v-select>
             </v-flex>
             <v-flex xs12>
-              <v-btn color="success" block>Guardar cambios</v-btn>
+              <v-btn color="success" block @click="actualizarPerfil()">Guardar cambios</v-btn>
             </v-flex>
           </v-layout>
           
@@ -107,9 +113,23 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import userService from '../services/user'
+
 export default {
+  created() {
+    if (this.user.historia3) {
+      this.userUpdated = this.user
+    }
+  },
   data () {
     return {
+      alert: {
+        show: false,
+        type: 'error',
+        message: ''
+      },
+      userUpdated: {},
       corriente: [
         {nombre: 'No tiene monto', valor: 0},
         {nombre: 'Entre 0 y $300.000', valor: 1},
@@ -124,10 +144,10 @@ export default {
         {nombre: 'No cuento con cuenta de ahorro', valor:4}
       ], 
       tasa:[
-        {nombre: '25%', valor: 0},
-        {nombre: '50%', valor: 1},
-        {nombre: '75%', valor: 2},
-        {nombre: '100%', valor: 3}
+        {nombre: '25%', valor: 1},
+        {nombre: '50%', valor: 2},
+        {nombre: '75%', valor: 3},
+        {nombre: '100%', valor: 4}
       ],
       edad:0,
       historia:[
@@ -177,6 +197,36 @@ export default {
         {nombre: 'Si', valor: 0},
         {nombre: 'No', valor: 1}
       ]
+    }
+  },
+  computed: {
+    ...mapState(['user'])
+  },
+  methods: {
+    async actualizarPerfil () {
+      this.alert.show = false
+      try {
+        this.userUpdated._id = this.user._id
+        this.userUpdated.nombre = this.user.nombre
+        this.userUpdated.celular = this.user.celular
+        this.userUpdated.correo = this.user.correo
+        const response = await userService.completarPerfil(this.userUpdated)
+        if (!response.data.estado) {
+          this.alert.type = 'error'
+          this.alert.message = response.data.mensaje
+          this.alert.show = true
+          return
+        }
+        this.$store.commit('setUser', this.userUpdated)
+        this.alert.type = 'success'
+        this.alert.message = 'Cambios guardados exitosamente'
+        this.alert.show = true
+      } catch (error) {
+        this.alert.type = 'error'
+          this.alert.message = 'Ha ocurrido un error'
+          this.alert.show = true
+          return
+      }
     }
   }
 }
