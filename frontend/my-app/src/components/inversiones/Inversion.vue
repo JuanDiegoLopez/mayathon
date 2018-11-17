@@ -1,5 +1,12 @@
 <template>
   <v-card v-if="inversion">
+    <div class="estado">
+      <h3 class="title white--text">
+        <span class="white--text text--darken-4" v-if="inversion.estado == 0 || inversion.estado == 1">Vigente</span>
+        <span class="white--text text--darken-4" v-if="inversion.estado == 2">Aprobada</span>
+        <span class="white--text text--darken-4" v-if="inversion.estado == 3">Rechazada</span>
+      </h3>
+    </div>
     <v-img
       src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
       aspect-ratio="2.75"
@@ -42,12 +49,13 @@ export default {
     tiempoRestante () {
       const fechaFin = moment(this.inversion.fechaFin)
       return fechaFin.diff(moment(),'days')
-      
     },
     porcetanjeInvertido () {
-     const financiado = ((this.inversion.invertido) / this.inversion.monto5) * 100
-     this.financiado = financiado;
-     return financiado.toFixed(2); 
+        const porcentaje = 0
+        if (!this.inversion.invertido) return porcentaje
+        const financiado = (this.inversion.invertido / this.inversion.monto5) * 100
+        this.financiado = financiado
+       return financiado.toFixed(2) 
     },
     color () {
         if (this.financiado == 0) return 'red'
@@ -73,3 +81,15 @@ export default {
 }
 </script>
 
+<style scoped>
+.estado {
+    right: 10px;
+    top: 10px;
+    margin-right: 0;
+    position: absolute;
+    z-index: 1;
+    padding: 10px 20px;
+    background-color: rgb(0,0,0,0.5);
+    border-radius: 10px !important;
+}
+</style>

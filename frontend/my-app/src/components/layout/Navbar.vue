@@ -61,7 +61,9 @@
     </v-navigation-drawer>
     <v-toolbar color="grey darken-3" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
-      <v-toolbar-title class="title">Crowdlending</v-toolbar-title>
+      <v-toolbar-title class="title">
+          Ants Inversion
+        </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn flat to="/inicio">Inicio</v-btn>

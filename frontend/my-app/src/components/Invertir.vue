@@ -22,10 +22,12 @@
           <inversion :inversion="inversion"></inversion>
         </v-flex>
       </v-layout>
-      <modal-inversion :dialog="false" @changeAlert="changeAlert"></modal-inversion>
+      <modal-inversion :type="0"></modal-inversion>
     </v-container>
     <v-container v-else>
-      <h1 class="display-1">Aún no se ha hecho solicitudes de inversion :(</h1>
+      <h1 class="display-1">Aún no se ha hecho solicitudes de inversion</h1>
+      <br>
+      <img src="../assets/sad.png" alt="imagen" width="300px">
     </v-container>  
   </div>
 </template>

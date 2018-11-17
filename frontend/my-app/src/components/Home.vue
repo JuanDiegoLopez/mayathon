@@ -6,25 +6,25 @@
     <br>
     <v-layout row wrap>
       <v-flex md5 offset-md1 xs12>
-        <v-btn flat block class="btn  title f1">
+        <v-btn flat block class="btn  title f1" to="/solicitar">
          <h2> Solicitar </h2>
         </v-btn>
       </v-flex>
       
       <v-flex md5 offset-md1 xs12>
-        <v-btn flat block class="btn f2 title">
+        <v-btn flat block class="btn f2 title" to="/invertir">
           <h2>Invertir</h2>
         </v-btn>
       </v-flex>
       
       <v-flex md5 offset-md1 xs12>
-        <v-btn flat block class="btn  title f3">
+        <v-btn flat block class="btn  title f3" to="/solicitudes">
          <h2> Mis solicitudes </h2>
         </v-btn>
       </v-flex>
 
       <v-flex md5 offset-md1 xs12>
-        <v-btn flat block class="btn title f4">
+        <v-btn flat block class="btn title f4" to="/inversiones">
           <h3> Mis inversiones </h3>
         </v-btn>
       </v-flex>

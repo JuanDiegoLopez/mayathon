@@ -100,7 +100,6 @@
             this.$store.commit('toggleLoader')
             return
           }
-          console.log(response)
           this.$store.commit('setUser', response.data.doc_usu)
           this.$store.commit('setInversiones', response.data.inversionesGlobales)
           this.$store.commit('toggleLoader')
