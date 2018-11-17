@@ -1,8 +1,9 @@
-<template>
+<template >
+  <div class="fondo">
   <v-container>
     <v-layout row wrap>
         <v-flex xs12 md4 offset-md4 class="login">
-          <h1 v-show="!signUpShow">Login</h1>
+          <h1 v-show="!signUpShow">Iniciar sesión</h1>
           <h1 v-show="signUpShow">Registrarse</h1>
           <p class="red--text">{{message}}</p>
           <v-text-field v-show="signUpShow" v-model="name" label="Nombre" required></v-text-field>
@@ -45,12 +46,12 @@
         </v-flex>
     </v-layout>
   </v-container>
+  </div>
 </template>
 
 
 <script>
   import userService from '../services/user'
-
   export default {
     data () {
       return {
@@ -115,14 +116,21 @@
 
 </script>
 <style scoped>
+  .fondo{   
+  background-image: url('../assets/fondo.jpg');
+  height: 600px;
+  padding: 50px;
+ }
+
 .login {
-  border: 1px solid #ccc;
+  background-color: white;
+  border: 2px solid #ccc;
   padding: 20px;
   border-radius: 10px;
+  width: 300px !important;
+   position: relative;
 }
-body {
-  background-color: #f1f1f1;
-}
+ 
 </style>
 
 
