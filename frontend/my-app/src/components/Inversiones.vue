@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="inversiones.length > 0">
+  <v-container v-if="user.inversiones.length">
     <h1 class="display-1">Tus inversiones</h1>
     <br>
     <v-layout row wrap>
@@ -9,7 +9,7 @@
     </v-layout>
   </v-container>
   <v-container v-else>
-    <h1 class="display-1">Auú no se han hecho ninguna solicitud :(</h1>
+    <h1 class="display-1">Auú no has invertido en ningun proyecto :(</h1>
   </v-container>
 </template>
 
@@ -22,7 +22,7 @@ export default {
     Inversion
   },
   computed: {
-    ...mapState(['inversiones'])
+    ...mapState(['user'])
   }
 }
 </script>
