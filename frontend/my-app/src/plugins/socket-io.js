@@ -10,5 +10,5 @@ const socket = io(config.apiUrl)
 Vue.use(VueSocketio, socket, store)
 
 socket.on('nuevaSolicitud', (solicitud) => {
-  store.getters.addSolicitud(solicitud)
+  store.getters.addInversion(solicitud)
 })
