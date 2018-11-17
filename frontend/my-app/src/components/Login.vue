@@ -2,7 +2,7 @@
   <div class="fondo">
   <v-container>
     <v-layout row wrap>
-        <v-flex xs12 md4 offset-md4 class="login">
+        <v-flex xs12 sm6 offset-sm3 md4 offset-md4 class="login">
           <h1 v-show="!signUpShow">Iniciar sesión</h1>
           <h1 v-show="signUpShow">Registrarse</h1>
           <p class="red--text">{{message}}</p>
@@ -118,8 +118,10 @@
 <style scoped>
   .fondo{   
   background-image: url('../assets/fondo.jpg');
-  height: 600px;
-  padding: 50px;
+  padding: 0px;
+  padding-top: 50px;
+  height: 100%;
+  background-size: cover;
  }
 
 .login {

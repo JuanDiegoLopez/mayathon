@@ -1,13 +1,22 @@
 <template>
   <div>
     <v-navigation-drawer v-model="drawer" fixed app>
+      <v-img :aspect-ratio="16/9" src="https://picsum.photos/510/300?random">
+        <v-layout pa-2 column fill-height class="lightbox white--text">
+          <v-spacer></v-spacer>
+          <v-flex shrink>
+            <div class="subheading"><strong>{{user.nombre}}</strong></div>
+            <div class="body-1"><strong>{{user.correo}}</strong></div>
+          </v-flex>
+        </v-layout>
+      </v-img>
       <v-list dense>
         <v-list-tile to="/inicio">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Inicio</v-list-tile-title>
+            <v-list-tile-title>Inicioo</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile to="/invertir">
@@ -52,6 +61,7 @@
         </v-list-tile>
         <v-list-tile @click="logout()">
           <v-list-tile-action>
+            <v-icon>reply_all</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Cerrar sesión</v-list-tile-title>

@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     toggleModal () {
-      this.$store.commit('setInversionSelected', this.inversion)
       this.$store.commit('toggleModal')
     },
      },  
