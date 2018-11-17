@@ -31,6 +31,9 @@ const store = new Vuex.Store({
     setInversiones (state, inversiones) {
       state.inversiones = inversiones
     },
+    addInversionGlobal (state, inversion) {
+      state.inversiones.push(inversion)
+    }.
     addInversion (state, inversion) {
       state.user.solicitudes.push(inversion)
     },

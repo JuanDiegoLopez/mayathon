@@ -11,5 +11,5 @@ Vue.use(VueSocketio, socket, store)
 
 socket.on('nuevaSolicitud', (solicitud) => {
   console.log('Llego una solicitud nueva!')
-  store.commit('addInversion', solicitud)
+  store.commit('addInversionGlobal', solicitud)
 })
