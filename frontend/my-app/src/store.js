@@ -33,7 +33,7 @@ const store = new Vuex.Store({
     },
     addInversionGlobal (state, inversion) {
       state.inversiones.push(inversion)
-    }.
+    },
     addInversion (state, inversion) {
       state.user.solicitudes.push(inversion)
     },
