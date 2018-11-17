@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="display-1">Tus Solicitudes</h1>
+    <h1 class="display-1">Tus solicitudes</h1>
     <br>
     <v-layout row wrap>
       <v-flex xs12 sm6 md4 class="px-3 mb-4">

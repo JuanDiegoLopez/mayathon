@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <h1 class="display-2">Bienvenido, Juan Diego</h1>
+  <v-container v-if='user'>
+    <h1 class="display-2">Bienvenido, {{user.nombre}}</h1>
     <br>
     <h3 class="headline">¿Qué deseas hacer hoy?</h3>
     <br>
@@ -45,7 +45,7 @@
 import {mapState} from 'vuex'
 export default{
   computed: {
-    ...mapState(['title'])
+    ...mapState(['user'])
   }
 }
 </script>
