@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="user && user.historia3">
+  <v-container v-if="user && user.historia3 != null">
     <h1 class="display-1">Solicitar inversión</h1>
     <v-alert :value="alert.show" :type="alert.type">
       {{alert.message}}

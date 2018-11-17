@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="inversion">
     <v-img
       src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
       aspect-ratio="2.75"
@@ -45,8 +45,7 @@ export default {
       
     },
     porcetanjeInvertido () {
-      this.inversion.invertido=3000710
-     const financiado = ((this.inversion.invertido)/this.inversion.monto5)*100
+     const financiado = ((this.inversion.invertido) / this.inversion.monto5) * 100
      this.financiado = financiado;
      return financiado.toFixed(2); 
     },
@@ -66,6 +65,7 @@ export default {
      },  
   filters:{
     coins(value){
+      if (!value) return 0
       return value.toLocaleString()
     }
 

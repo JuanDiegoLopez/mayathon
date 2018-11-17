@@ -118,7 +118,7 @@ import userService from '../services/user'
 
 export default {
   created() {
-    if (this.user.historia3) {
+    if (this.user.historia3 != null) {
       this.userUpdated = this.user
     }
   },

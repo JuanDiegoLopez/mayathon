@@ -3,7 +3,7 @@
     <h1 class="display-1">Tus inversiones</h1>
     <br>
     <v-layout row wrap>
-      <v-flex xs12 sm6 md4 class="px-3 mb-4"  v-for="inversion in inversiones" :key="inversion._id">
+      <v-flex xs12 sm6 md4 class="px-3 mb-4"  v-for="inversion in user.inversiones" :key="inversion._id">
         <inversion :inversion="inversion"></inversion>
       </v-flex>
     </v-layout>

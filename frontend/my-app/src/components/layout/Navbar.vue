@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" fixed app>
+    <v-navigation-drawer v-model="drawer" fixed app clipped>
       <v-list dense>
         <v-list-tile to="/inicio">
           <v-list-tile-action>

@@ -73,29 +73,15 @@ export default {
         }
         const response = await inversionesServices.hacerInversion(inversion)
         if (!response.data.estatus) {
-          const alert = {
-            type: 'error',
-            message: response.data.message,
-            show: true
-          }
-          this.changeAlert(alert)
+          console.log(response)
           return
         }
         this.$store.commit('addInvercion', this.inversion)
         this.toggleModal()
-        this.$router.push('inversiones')
+        this.$router.push('/inversiones')
       } catch (error) {
-        const alert = {
-            type: 'error',
-            message: 'Ha ocurrido un error',
-            show: true
-          }
-          this.changeAlert(alert)
           this.toggleModal()
       }
-    },
-    changeAlert (alert) {
-      this.$emit('changeAlert', alert) 
     }
   }
 }
