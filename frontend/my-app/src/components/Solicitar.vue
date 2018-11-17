@@ -11,7 +11,7 @@
       <v-flex md8 sm12 class="pa-2">
         <v-text-field v-model="solicitud.descripcionCorta" label="Descripcion corta" required></v-text-field>
       </v-flex>
-      <v-flex md8 sm12 class="pa-2">
+      <v-flex md12 sm12 class="pa-2">
         <v-textarea v-model="solicitud.descripcion" label="Descripción larga" requerid></v-textarea>
       </v-flex>
       <v-flex md8 sm12 class="pa-2">
@@ -35,13 +35,16 @@
       <v-flex md3 sm12 class="pa-2" v-if="solicitud.fiador10">
         <v-text-field type="number" v-model="solicitud.cedulaFiador" label="Cedula del fiador" required></v-text-field>
       </v-flex>
-      <v-flex md3 sm12 class="pa-2" v-if="solicitud.fiador10">
+      <v-flex md6 sm12 class="pa-2" v-if="solicitud.fiador10">
         <v-text-field v-model="solicitud.nombreFiador" label="Nombre del fiador" required></v-text-field>
       </v-flex>
-      <v-flex sm3 xs6 offset-sm3 class="pa-2">
+      </v-layout>
+
+      <v-layout> 
+        <v-flex md3 sm12 offset-md3 class="pa-2">
         <v-btn to="/inicio" block>Cancelar</v-btn>
       </v-flex>
-      <v-flex sm3 xs6 class="pa-2">
+      <v-flex md3 sm12  class="pa-2">
         <v-btn color="primary" @click="dialog = true" block>Solicitar</v-btn>
       </v-flex>
     </v-layout>
