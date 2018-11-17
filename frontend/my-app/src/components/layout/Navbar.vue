@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" fixed app>
+    <v-navigation-drawer v-model="drawer" fixed app clipped>
       <v-list dense>
         <v-list-tile to="/inicio">
           <v-list-tile-action>
@@ -12,7 +12,7 @@
         </v-list-tile>
         <v-list-tile to="/invertir">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>find_in_page</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Invertir</v-list-tile-title>
@@ -20,7 +20,7 @@
         </v-list-tile>
         <v-list-tile to="/solicitar">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>assignment</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Solicitar</v-list-tile-title>
@@ -28,7 +28,7 @@
         </v-list-tile>
         <v-list-tile to="inversiones">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>work</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Mis inversiones</v-list-tile-title>
@@ -36,7 +36,7 @@
         </v-list-tile>
         <v-list-tile to="solicitudes">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>work_outline</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Mis solicitudes</v-list-tile-title>
@@ -44,7 +44,7 @@
         </v-list-tile>
         <v-list-tile to="perfil">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>account_circle</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Perfil</v-list-tile-title>
@@ -52,7 +52,6 @@
         </v-list-tile>
         <v-list-tile @click="logout()">
           <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Cerrar sesión</v-list-tile-title>
@@ -60,9 +59,9 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="indigo" dark fixed app>
+    <v-toolbar color="grey darken-3" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
-      <v-toolbar-title>Crowdlending</v-toolbar-title>
+      <v-toolbar-title class="title">Crowdlending</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn flat to="/inicio">Inicio</v-btn>
@@ -72,7 +71,8 @@
         <v-btn flat to="/inversiones">Mis inversiones</v-btn>
         <v-menu offset-y>
           <v-btn slot="activator" flat>
-            Juan Diego
+            <v-icon left>account_circle</v-icon>
+              {{user.nombre}}
           </v-btn>
           <v-list>
             <v-list-tile to="/perfil">
@@ -89,11 +89,15 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
       drawer: false
     }
+  },
+  computed:{
+    ...mapState(['user'])
   },
   methods: {
     logout () {
@@ -103,4 +107,12 @@ export default {
   }
 }
 </script>
+<style scoped>
+.title{
+  font-family: 'Lobster', cursive !important;
+  font-size: 30px !important;
+  height: 40px;
+}
+
+</style>
 

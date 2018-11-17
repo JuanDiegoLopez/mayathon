@@ -1,15 +1,15 @@
 <template>
-  <v-container v-if="inversiones.length > 0">
+  <v-container v-if="user.inversiones.length">
     <h1 class="display-1">Tus inversiones</h1>
     <br>
     <v-layout row wrap>
-      <v-flex xs12 sm6 md4 class="px-3 mb-4"  v-for="inversion in inversiones" :key="inversion._id">
+      <v-flex xs12 sm6 md4 class="px-3 mb-4"  v-for="inversion in user.inversiones" :key="inversion._id">
         <inversion :inversion="inversion"></inversion>
       </v-flex>
     </v-layout>
   </v-container>
   <v-container v-else>
-    <h1 class="display-1">Auú no se han hecho ninguna solicitud :(</h1>
+    <h1 class="display-1">Auú no has invertido en ningun proyecto :(</h1>
   </v-container>
 </template>
 
@@ -22,7 +22,7 @@ export default {
     Inversion
   },
   computed: {
-    ...mapState(['inversiones'])
+    ...mapState(['user'])
   }
 }
 </script>

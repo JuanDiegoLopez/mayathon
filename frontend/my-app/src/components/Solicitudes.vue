@@ -12,6 +12,7 @@
     <v-container v-else>
       <h1 class="display-1">Aún no has realizado ninguna solicitud</h1>
     </v-container>
+    <modal-inversion :dialog="false" @changeAlert="changeAlert"></modal-inversion>
   </div>
 </template>
 
@@ -19,9 +20,12 @@
 import {mapState} from 'vuex'
 import Inversion from './inversiones/Inversion'
 
+import ModalInversion from './modals/ModalInversion'
+
 export default {
   components: {
-    Inversion
+    Inversion,
+    ModalInversion
   },
   computed: {
     ...mapState(['user'])

@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if='user'>
+  <v-container v-if='user' >
     <h1 class="display-2">Bienvenido, {{user.name}}</h1>
     <br>
     <h3 class="headline">¿Qué deseas hacer hoy?</h3>
@@ -62,12 +62,12 @@ export default{
   .btn {
     height: 150px;
    text-transform:capitalize;
-   color:#eee
+   color: white;
+   border-radius: 5px;
   }
 
   h2 {
   position: relative;
   }
 
-  
 </style>

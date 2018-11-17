@@ -2,7 +2,7 @@
   <v-app>
     <app-navbar v-if="connect"></app-navbar>
     <app-loader></app-loader>
-    <v-content>
+    <v-content >
       <v-container>
         <router-view></router-view>
       </v-container>
@@ -30,3 +30,8 @@ export default {
   }
 }
 </script>
+
+<style >
+
+</style>
+

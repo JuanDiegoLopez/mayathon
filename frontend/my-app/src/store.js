@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     toggleModal (state) {
       state.dialog = !state.dialog
     },
-    setInversion (state, inversion) {
+    setInversionSelected (state, inversion) {
       state.inversionSelected = inversion
     },
     setUser (state, user) {
@@ -31,8 +31,22 @@ const store = new Vuex.Store({
     setInversiones (state, inversiones) {
       state.inversiones = inversiones
     },
-    addInversion (state, inversion) {
+    addInversionGlobal (state, inversion) {
       state.inversiones.push(inversion)
+    },
+    setInversionGlobal (state, id, monto) {
+      for (let i in state.inversiones) {
+        if (state.inversiones[i]._id == id) {
+          state.inversiones[i].monto = monto
+          state.inversiones[i].estado = 1
+        }
+      }
+    },
+    addSolicitud (state, solicitud) {
+      state.user.solicitudes.push(solicitud)
+    },
+    addInversion (state, inversion) {
+      state.user.addInversion.push(inversion)
     },
     disconnect (state) {
       state.user = null
@@ -41,9 +55,6 @@ const store = new Vuex.Store({
     toggleLoader (state) {
       state.isLoading = !state.isLoading
     }
-  },
-  actions: {
-
   }
 })
 
