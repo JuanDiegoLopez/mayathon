@@ -12,13 +12,13 @@
     </v-card-title>
     <v-layout row wrap class="pa-2 text-xs-center">
       <v-flex xs6>
-        <span>Conseguido <strong>{{inversion.invertido}}</strong></span>
+        <span>Conseguido <strong>${{inversion.invertido |coins}}</strong></span>
       </v-flex>
       <v-flex xs6>
-        <span>Quedan <strong></strong></span>
+        <span>Quedan <strong>{{tiempoRestante}} dias</strong></span>
       </v-flex>
-      <v-progress-linear v-model="valueDeterminate"></v-progress-linear>
-      <span class="ma-auto blue--text">50% financiado</span>
+      <v-progress-linear v-model="porcetanjeInvertido"></v-progress-linear>
+      <span class="ma-auto blue--text">{{porcetanjeInvertido}}% financiado</span>
     </v-layout>
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -40,16 +40,25 @@ export default {
   computed: {
     tiempoRestante () {
       const fechaFin = moment(this.inversion.fechaFin)
-      return moment().diff(fechaFin)
+      return fechaFin.diff(moment(),'days')
+      
     },
     porcetanjeInvertido () {
-
+      this.inversion.invertido=1000000
+     const financiado = ((this.inversion.invertido)/this.inversion.monto5)*100
+     return financiado.toFixed(2); 
     }
   },
   methods: {
     toggleModal () {
       this.$store.commit('toggleModal')
     }
+  },
+  filters:{
+    coins(value){
+      return value.toLocaleString()
+    }
+
   }
 }
 </script>
