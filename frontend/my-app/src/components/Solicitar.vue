@@ -10,11 +10,24 @@
                 @input="$v.name.$touch()"
                 @blur="$v.name.$touch()"
               ></v-text-field>
-               
-              <v-select
-          :items="categoria"
-          label="Categoria"
-        ></v-select>
+              <v-text-field
+                v-model="descripcion"
+                label="Descripcion"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
+              <v-text-field
+                v-model="modelo"
+                label="Modelo de negocio"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
+               <v-select
+              :items="categoria"
+              label="Categoria"
+             ></v-select>
             <v-layout row wrap>
                 <v-flex xs10 >
                     <v-text-field
@@ -31,9 +44,37 @@
                      <v-btn block >cargar</v-btn>
                 </v-flex>
             </v-layout>
+            <v-text-field
+                v-model="duracion"
+                label="Duracion en meses de la solicitud"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
+              <v-text-field
+                v-model="rentabilidad"
+                label="Rentabilidad"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
+              <v-text-field
+                v-model="nombreFiador"
+                label="Nombre del fiador"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
 
-        
-        <v-text-field
+              <v-text-field
+                v-model="monto"
+                label="Cedula del fiador"
+                required
+                @input="$v.name.$touch()"
+                @blur="$v.name.$touch()"
+              ></v-text-field>
+          
+              <v-text-field
                 v-model="monto"
                 label="Monto"
                 required
