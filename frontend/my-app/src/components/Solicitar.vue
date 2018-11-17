@@ -125,6 +125,7 @@ export default {
           this.alert = alert
           return
         }
+        this.$store.commit('addInversion', this.solicitud)
         this.$router.push('/solicitudes')
       } catch (error) {
         this.alert.type = 'error'
