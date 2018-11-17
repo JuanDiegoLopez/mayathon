@@ -3,9 +3,7 @@
     <app-navbar v-if="connect"></app-navbar>
     <app-loader></app-loader>
     <v-content >
-      <v-container>
-        <router-view></router-view>
-      </v-container>
+      <router-view></router-view>
     </v-content>
     <app-footer v-if="connect"></app-footer>
   </v-app>

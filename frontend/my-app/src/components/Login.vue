@@ -2,7 +2,7 @@
   <div class="fondo">
   <v-container>
     <v-layout row wrap>
-        <v-flex xs12 md4 offset-md4 class="login">
+        <v-flex xs12 sm6 offset-sm3 md4 offset-md4 class="login">
           <h1 v-show="!signUpShow">Iniciar sesión</h1>
           <h1 v-show="signUpShow">Registrarse</h1>
           <p class="red--text">{{message}}</p>
@@ -76,6 +76,7 @@
       async signUp () {
         if (this.password != this.repassword) return this.message = 'Las contraseñas no coinciden'
         try {
+          this.$store.commit('toggleLoader')
           const response = await userService.signUp(this.name, this.lastname, this.phone, this.email, this.password)
           if (!response.data.estado) return this.message = response.data.mensaje
           const user = {
@@ -86,9 +87,11 @@
             correo: this.email
           }
           this.$store.commit('setUser', user)
+          this.$store.commit('toggleLoader')
           this.$router.push('inicio')
         } catch (error) {
           this.message = 'Ha ocurrido un error'
+          this.$store.commit('toggleLoader')
         }
       },
       async signIn () {
@@ -117,8 +120,10 @@
 <style scoped>
   .fondo{   
   background-image: url('../assets/fondo.jpg');
-  height: 600px;
-  padding: 50px;
+  padding: 0px;
+  padding-top: 30px;
+  height: 100%;
+  background-size: cover;
  }
 
 .login {

@@ -206,6 +206,7 @@ export default {
     async actualizarPerfil () {
       this.alert.show = false
       try {
+        this.$store.commit('toggleLoader')
         this.userUpdated._id = this.user._id
         this.userUpdated.nombre = this.user.nombre
         this.userUpdated.celular = this.user.celular
@@ -221,10 +222,12 @@ export default {
         this.alert.type = 'success'
         this.alert.message = 'Cambios guardados exitosamente'
         this.alert.show = true
+        this.$store.commit('toggleLoader')
       } catch (error) {
         this.alert.type = 'error'
           this.alert.message = 'Ha ocurrido un error'
           this.alert.show = true
+          this.$store.commit('toggleLoader')
           return
       }
     }

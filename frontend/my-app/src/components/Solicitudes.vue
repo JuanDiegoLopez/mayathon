@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container v-if="user.solicitudes.length">
+    <v-container v-if="user.solicitudes && user.solicitudes.length">
       <h1 class="display-1">Tus solicitudes</h1>
       <br>
       <v-layout row wrap>
