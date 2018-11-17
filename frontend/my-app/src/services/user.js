@@ -10,7 +10,6 @@ userService.signUp = function (name, lastname, phone,  email, password) {
     correo: email,
     contrasena: password
   }
-
   return appService.post('/registrar', data)
 }
 
@@ -19,8 +18,11 @@ userService.signIn = function (email, password) {
     correo: email,
     contrasena: password
   }
-
   return appService.post('/login', data)
+}
+
+userService.completarPerfil = function (user) {
+  return appService.put('/completarPerfil', user)
 }
 
 export default userService
