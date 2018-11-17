@@ -71,11 +71,11 @@ function UsersHandler(io,db,fs,ObjectID,socket) { //cargamos exactamente las mis
         users.postInvertir(req.body, function(estado,socketid){
         "use strict";
 
-        socket.broadcast.emit('actualizarEstadoSolicitud', idmuestra);
+        socket.broadcast.emit('actualizarEstadoInversion', req.body.idInversion,req.body.monto );
 
          
 
-        socket.to(socketid).emit('actuEstadoMuestra', {_id:idmuestra,estado:2});
+        socket.to(socketid).emit('actuEstadoInversion',  req.body.idInversion, req.body.monto   );
 
 
         res.send({estado:estado});

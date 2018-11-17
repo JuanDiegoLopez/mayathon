@@ -333,7 +333,9 @@ function UsersDAO(db,ObjectID,fs) {
                   
               }
 
-              var solicitudBD={fechaFin:fechaFin,fechaInicio:fechaInicio,invertido:0,descripcionCorta:solicitud.descripcionCorta,riesgo:riesgo,titulo:solicitud.titulo,rentabilidad:solicitud.rentabilidad,nombreFiador:solicitud.nombreFiador,monto5:parseInt(solicitud.monto5),modelo:solicitud.modelo,fiador10:solicitud.fiador10,duracion2:parseInt(solicitud.duracion2),descripcion:solicitud.descripcion,cedulaFiador:solicitud.cedulaFiador,categoria4:solicitud.categoria4,estado:0};
+              var objectId= ObjectID();
+
+              var solicitudBD={_id:objectId,numeroInversores:0,fechaFin:fechaFin,fechaInicio:fechaInicio,invertido:0,descripcionCorta:solicitud.descripcionCorta,riesgo:riesgo,titulo:solicitud.titulo,rentabilidad:solicitud.rentabilidad,nombreFiador:solicitud.nombreFiador,monto5:parseInt(solicitud.monto5),modelo:solicitud.modelo,fiador10:solicitud.fiador10,duracion2:parseInt(solicitud.duracion2),descripcion:solicitud.descripcion,cedulaFiador:solicitud.cedulaFiador,categoria4:solicitud.categoria4,estado:0};
 
 
 
@@ -368,52 +370,133 @@ function UsersDAO(db,ObjectID,fs) {
             this.postInvertir = function(inversion, callback) {
                 "use strict";
     
-    
+                inversion.monto=parseInt(inversion.monto);
                 
-                usuarios.findOne({_id:ObjectID(inversion.idusuinve)}, function(err, docinve) {
+                usuarios.findOne({_id:ObjectID(inversion.idInversor)}, function(err, docinve) {
                     "use strict";
-    
-    
-    
-                    solicitudes.findOneAndUpdate({_id:ObjectID(inversion.idsol)},{$set:{estado:1},$push:{inversores:{nombre:docinve.nombre,_id:docinve._id,celular:docinve.celular}}}, function(err,result) {
+
+
+                    solicitudes.findOneAndUpdate({_id:ObjectID(inversion.idInversion), "inversores._id":ObjectID(inversion.idInversor) },{$inc:{"inversores.$.invertido":inversion.monto,invertido:inversion.monto}}, function(err, result) {
                         "use strict";
-    
-                                if (err) return callback(1);            
-                                
-                                var solicitudDoc=result.value;
-    
-                                solicitudDoc.estado=1;
-    
-    
-                                usuarios.updateOne({_id:ObjectID(inversion.idusuinve)},{$push:{inversiones:solicitudDoc}}, function(err) {
-                                    "use strict";
+
+                        var sumaInversores=0;
+                        var docSol=result.value;
+                        if (docSol){
                     
-                                            if (err) return callback(1);                                                      
+                                        usuarios.updateOne({_id:ObjectID(inversion.idInversor), "inversiones._id":docSol._id   },{$inc:{"inversiones.$.invertido":inversion.monto}}, function(err) {
+                                            "use strict";
+                            
+                                                    if (err) return callback(1);                                                      
+                                                    
                                             
-                                    
-                                    });
-    
-    
-    
-                                usuarios.findOneAndUpdate({_id:ObjectID(solicitudDoc.solicitante._id),"solicitudes._id":ObjectID(inversion.idsol)},{$set:{"solicitudes.$.estado":1},$push:{"solicitudes.$.inversores":{nombre:docinve.nombre,_id:docinve._id,celular:docinve.celular}}}, function(err,result) {
-                                    "use strict";
-                                
-                                        if (err) return callback(err, false);
-                    
-                                        var userDoc=result.value;
-    
-                                        return callback(true,userDoc.socketid);
-    
+                                            });
+            
+            
+            
+                                        usuarios.findOneAndUpdate({_id:ObjectID(docSol.solicitante._id),"solicitudes._id":ObjectID(inversion.idInversion)},{$inc:{"solicitudes.$.invertido":inversion.monto  }}, function(err,result) {
+                                            "use strict";
                                         
+                                                if (err) return callback(err, false);
+                            
+                                                var userDoc=result.value;
+
+                                                var indexSol;
+
+                                                for (let i = 0; i < userDoc.solicitudes.length; i++) {
+                                                
+                                                    if (String(userDoc.solicitudes[i]._id)==inversion.idInversion) {
+                                                        indexSol=i;    
+                                                        break;                                                    
+                                                    }                                                                                                        
+                                                }
+
+
+
+                                        usuarios.updateOne({_id:ObjectID(docSol.solicitante._id),"solicitudes.indexSol.inversores._id":ObjectID(inversion.idInversor)},{$inc:{"solicitudes.indexSol.inversores.$.invertido":inversion.monto  }}, function(err,result) {
+                                            "use strict";
+                                        
+                                                if (err) return callback(err, false);
+                                    
+
+
+            
+                                                return callback(true,userDoc.socketid);
+            
+                                                
+            
+            
+                                            });
+                            
+                                        });
+            
+                                                         
+
+
+                            
+
+
+
+
+                        } 
+                        else{
+
+                            sumaInversores=sumaInversores+1;
+
+
+                            solicitudes.findOneAndUpdate({_id:ObjectID(inversion.idInversion)},{$set:{estado:1},$inc:{numeroInversores:1,invertido:inversion.monto},$push:{inversores:{invertido:inversion.monto,nombre:docinve.nombre,_id:docinve._id,celular:docinve.celular}}}, function(err,result) {
+                                "use strict";
+            
+                                        if (err) return callback(1);            
+                                        
+                                        var solicitudDoc=result.value;
+            
+                                        solicitudDoc.estado=1;
+
+                                        solicitudDoc.numeroInversores=solicitudDoc.numeroInversores + 1;
+
+                                        solicitudDoc.invertido=solicitudDoc.invertido+inversion.monto;
+            
+            
+                                        usuarios.updateOne({_id:ObjectID(inversion.idInversor)},{$push:{inversiones:solicitudDoc}}, function(err) {
+                                            "use strict";
+                            
+                                                    if (err) return callback(1);                                                      
+                                                    
+                                            
+                                            });
+            
+            
+            
+                                        usuarios.findOneAndUpdate({_id:ObjectID(solicitudDoc.solicitante._id),"solicitudes._id":ObjectID(inversion.idInversion)},{$inc:{"solicitudes.$.numeroInversores":1,"solicitudes.$.invertido":inversion.monto},$set:{"solicitudes.$.estado":1},$push:{"solicitudes.$.inversores":{invertido:inversion.monto,nombre:docinve.nombre,_id:docinve._id,celular:docinve.celular}}}, function(err,result) {
+                                            "use strict";
+                                        
+                                                if (err) return callback(err, false);
+                            
+                                                var userDoc=result.value;
+            
+                                                return callback(true,userDoc.socketid);
+            
+                                                
+            
+            
+            
+                            
+                                        });
+            
+                                });                            
+
+
+
+
+
+                        }
     
     
-    
-                    
-                                });
-    
-                        });
+
                     
                     });
+
+                });
                                 
                 } 
  
