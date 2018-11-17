@@ -121,7 +121,11 @@
   .fondo{   
   background-image: url('../assets/fondo.jpg');
   padding: 0px;
+<<<<<<< HEAD
   padding-top: 30px;
+=======
+  padding-top: 50px;
+>>>>>>> 57088d898ba44ae68d12af72957dd3f61541a10c
   height: 100%;
   background-size: cover;
  }
