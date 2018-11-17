@@ -7,9 +7,12 @@
         <inversion :inversion="inversion"></inversion>
       </v-flex>
     </v-layout>
+    <modal-inversion :type="1"></modal-inversion>
   </v-container>
-  <v-container v-else>
-    <h1 class="display-1">Auú no has invertido en ningun proyecto :(</h1>
+  <v-container v-else class="text-xs-center">
+    <h1 class="display-1">Aún no has invertido en ningun proyecto</h1>
+    <br>
+    <img src="../assets/sad.png" alt="imagen" width="300px">
   </v-container>
 </template>
 
@@ -17,9 +20,12 @@
 import {mapState} from 'vuex'
 import Inversion from './inversiones/Inversion'
 
+import ModalInversion from './modals/ModalInversion'
+
 export default {
   components: {
-    Inversion
+    Inversion,
+    ModalInversion
   },
   computed: {
     ...mapState(['user'])

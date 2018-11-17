@@ -9,10 +9,12 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-container v-else>
+    <v-container v-else class="text-xs-center">
       <h1 class="display-1">Aún no has realizado ninguna solicitud</h1>
+      <br>
+      <img src="../assets/sad.png" alt="imagen" width="300px">
     </v-container>
-    <modal-inversion :dialog="false" @changeAlert="changeAlert"></modal-inversion>
+    <modal-inversion :type="2"></modal-inversion>
   </div>
 </template>
 

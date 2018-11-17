@@ -34,19 +34,33 @@ const store = new Vuex.Store({
     addInversionGlobal (state, inversion) {
       state.inversiones.push(inversion)
     },
-    setInversionGlobal (state, id, monto) {
-      for (let i in state.inversiones) {
-        if (state.inversiones[i]._id == id) {
-          state.inversiones[i].monto = monto
-          state.inversiones[i].estado = 1
+    setInversionGlobal (state, data) {
+      for (let i = 0; i<state.user.inversiones.length; i++) {
+        if (state.inversiones[i]._id == data.idInversion) {
+          state.inversiones[i].invertido = parseInt(state.inversiones[i].invertido) + parseInt(data.monto)
+          state.inversiones[i].estado = data.estado
+        }
+      }
+    },
+    setInversion (state, data) {
+      for (let i = 0; i<state.user.inversiones.length; i++) {
+        if (state.user.inversiones[i]._id == data.idInversion) {
+          state.user.inversiones[i].invertido = parseInt(state.user.inversiones[i].invertido) + parseInt(data.monto)
+          state.user.inversiones[i].estado = 1
         }
       }
     },
     addSolicitud (state, solicitud) {
+      if(!state.user.solicitudes) {
+        state.user.solicitudes = []
+      }
       state.user.solicitudes.push(solicitud)
     },
     addInversion (state, inversion) {
-      state.user.addInversion.push(inversion)
+      if (!state.user.inversiones) {
+        state.user.inversiones = []
+      }
+      state.user.inversiones.push(inversion)
     },
     disconnect (state) {
       state.user = null
