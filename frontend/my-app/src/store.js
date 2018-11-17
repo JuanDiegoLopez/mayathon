@@ -32,7 +32,7 @@ const store = new Vuex.Store({
       state.inversiones = inversiones
     },
     addInversion (state, inversion) {
-      state.inversiones.push(inversion)
+      state.user.solicitudes.push(inversion)
     },
     disconnect (state) {
       state.user = null
@@ -41,9 +41,6 @@ const store = new Vuex.Store({
     toggleLoader (state) {
       state.isLoading = !state.isLoading
     }
-  },
-  actions: {
-
   }
 })
 
