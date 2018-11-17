@@ -27,7 +27,7 @@
             @click:append="show = !show"
     ></v-text-field>
     
-    <v-btn to="/home" >login</v-btn>
+    <v-btn to="/inicio" >login</v-btn>
     <v-btn @click="show1=true" >Registrarse</v-btn>
   </form>
         </v-container>
