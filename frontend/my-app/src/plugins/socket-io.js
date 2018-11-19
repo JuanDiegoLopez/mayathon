@@ -18,3 +18,7 @@ socket.on('actualizarEstadoInversion', (data) => {
   console.log('Han invertido en una solicitud!')
   store.commit('setInversionGlobal', data)
 })
+
+socket.on('actuEstadoInversion', (data) => {
+  store.commit('setInversion', data)
+})

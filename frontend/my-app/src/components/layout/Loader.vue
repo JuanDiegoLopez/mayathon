@@ -20,7 +20,7 @@ export default {
     height: 100%;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 200;
+    z-index: 500;
   }
   .loader {
     display: block;

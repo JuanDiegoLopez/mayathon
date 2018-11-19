@@ -35,7 +35,7 @@ const store = new Vuex.Store({
       state.inversiones.push(inversion)
     },
     setInversionGlobal (state, data) {
-      for (let i = 0; i<state.user.inversiones.length; i++) {
+      for (let i = 0; i<state.inversiones.length; i++) {
         if (state.inversiones[i]._id == data.idInversion) {
           state.inversiones[i].invertido = parseInt(state.inversiones[i].invertido) + parseInt(data.monto)
           state.inversiones[i].estado = data.estado
@@ -46,7 +46,7 @@ const store = new Vuex.Store({
       for (let i = 0; i<state.user.inversiones.length; i++) {
         if (state.user.inversiones[i]._id == data.idInversion) {
           state.user.inversiones[i].invertido = parseInt(state.user.inversiones[i].invertido) + parseInt(data.monto)
-          state.user.inversiones[i].estado = 1
+          state.user.inversiones[i].estado = data.estado
         }
       }
     },

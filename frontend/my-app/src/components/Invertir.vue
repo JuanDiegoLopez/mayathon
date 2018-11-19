@@ -24,7 +24,7 @@
       </v-layout>
       <modal-inversion :type="0"></modal-inversion>
     </v-container>
-    <v-container v-else>
+    <v-container v-else class="text-xs-center">
       <h1 class="display-1">Aún no se ha hecho solicitudes de inversion</h1>
       <br>
       <img src="../assets/sad.png" alt="imagen" width="300px">
